@@ -20,6 +20,10 @@ public class CameraMove : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             newTransform += Vector3.right * speed * Time.deltaTime;
+
+            // Rotate skybox with building
+            float currentSkyRot = RenderSettings.skybox.GetFloat("_Rotation");
+            RenderSettings.skybox.SetFloat("_Rotation", currentSkyRot + Time.deltaTime * speed);
         }
 
         if (Input.GetKey(KeyCode.W))
@@ -30,6 +34,10 @@ public class CameraMove : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             newTransform += Vector3.left * speed * Time.deltaTime;
+
+            // Rotate skybox with building
+            float currentSkyRot = RenderSettings.skybox.GetFloat("_Rotation");
+            RenderSettings.skybox.SetFloat("_Rotation", currentSkyRot + Time.deltaTime * -speed);
         }
 
         if (Input.GetKey(KeyCode.S))
