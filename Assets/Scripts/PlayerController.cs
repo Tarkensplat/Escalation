@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,14 +9,17 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed = 10.0f;
     public float jumpSpeed = 500.0f;
     public float counterJump = 180.0f;
+    public float minX, maxX;
     int jumps = 2;
     bool isJumping = false;
     Rigidbody rb;
+    CinemachineVirtualCamera vcam;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        vcam = GameObject.FindGameObjectWithTag("Cinemachine Camera").GetComponent<CinemachineVirtualCamera>();
     }
 
     // Update is called once per frame
@@ -25,10 +29,24 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             rb.AddForce(Vector2.left * moveSpeed);
+            if (rb.position.x < minX)
+            {
+                Vector3 oldPos = rb.position;
+                rb.position = new Vector3(maxX, transform.position.y, transform.position.z);
+                Vector3 newPos = rb.position;
+                vcam.OnTargetObjectWarped(transform, newPos - oldPos);
+            }
         }
         if (Input.GetKey(KeyCode.D))
         {
             rb.AddForce(Vector2.right * moveSpeed);
+            if (rb.position.x > maxX)
+            {
+                Vector3 oldPos = rb.position;
+                rb.position = new Vector3(minX, transform.position.y, transform.position.z);
+                Vector3 newPos = rb.position;
+                vcam.OnTargetObjectWarped(transform, newPos - oldPos);
+            }
         }
 
         //jump
