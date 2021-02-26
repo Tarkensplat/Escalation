@@ -7,7 +7,9 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 1.0f;
     public float maxSpeed = 10.0f;
     public float jumpSpeed = 500.0f;
+    public float counterJump = 180.0f;
     int jumps = 2;
+    bool isJumping = false;
     Rigidbody rb;
 
     // Start is called before the first frame update
@@ -32,11 +34,18 @@ public class PlayerController : MonoBehaviour
         //jump
         if (jumps > 0)
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.W))
             {
+                isJumping = true;
                 rb.AddForce(Vector3.up * jumpSpeed);
                 jumps--;
             }
+        }
+
+        //reduce the jump force if the player lets go early
+        if(isJumping && Input.GetKeyUp(KeyCode.W) && rb.velocity.y > 2)
+        {
+            rb.AddForce(Vector3.down * counterJump);
         }
 
         //clamp velocity
@@ -48,10 +57,17 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        //reset jumps on landing
+        var normal = collision.contacts[0].normal;
+        //reset jumps on landing if needed
         if (jumps != 2)
         {
-            jumps = 2;
+            //check to see if the bottom or side of the player is colliding
+            if (normal.y > 0 || normal.x != 0)
+            {
+                isJumping = false;
+                jumps = 2;
+            }
+
         }
     }
 }
