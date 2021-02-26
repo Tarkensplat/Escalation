@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 1.0f;
     public float maxSpeed = 10.0f;
     public float jumpSpeed = 500.0f;
-    float counterJump = 180.0f;
+    public float counterJump = 180.0f;
     int jumps = 2;
     bool isJumping = false;
     Rigidbody rb;
@@ -61,14 +61,16 @@ public class PlayerController : MonoBehaviour
         //reset jumps on landing if needed
         if (jumps != 2)
         {
-            //check to see if the bottom of the player is colliding
-            
-            if (normal.y > 0)
+            Debug.Log("Normal" + normal);
+
+            //check to see if the bottom or side of the player is colliding
+            if (normal.y > 0 || normal.x != 0)
             {
+                Debug.Log("Reset");
                 isJumping = false;
                 jumps = 2;
             }
-            
+
         }
     }
 }
