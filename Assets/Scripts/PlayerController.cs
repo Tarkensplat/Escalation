@@ -61,12 +61,9 @@ public class PlayerController : MonoBehaviour
         //reset jumps on landing if needed
         if (jumps != 2)
         {
-            Debug.Log("Normal" + normal);
-
             //check to see if the bottom or side of the player is colliding
             if (normal.y > 0 || normal.x != 0)
             {
-                Debug.Log("Reset");
                 isJumping = false;
                 jumps = 2;
             }
