@@ -5,10 +5,10 @@ using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 1.0f;
-    public float maxSpeed = 10.0f;
+    public float moveSpeed = 3.0f;
+    public float maxSpeed = 7.0f;
     public float jumpSpeed = 500.0f;
-    public float counterJump = 180.0f;
+    public float counterJump = 100.0f;
     public float minX, maxX;
     int jumps = 2;
     bool isJumping = false;
