@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed = 7.0f;
     public float jumpSpeed = 500.0f;
     public float counterJump = 100.0f;
+    float xVelocity = 0.0f;
+    float yVelocity = 0.0f;
     public float minX, maxX;
     int jumps = 2;
     bool isJumping = false;
@@ -25,10 +27,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        xVelocity = 0.0f;
+        yVelocity = rb.velocity.y;
         //side to side movement
         if (Input.GetKey(KeyCode.A))
         {
-            rb.AddForce(Vector2.left * moveSpeed);
+            xVelocity = -1.0f * moveSpeed;
             if (rb.position.x < minX)
             {
                 Vector3 oldPos = rb.position;
@@ -39,7 +43,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.D))
         {
-            rb.AddForce(Vector2.right * moveSpeed);
+            xVelocity = moveSpeed;
             if (rb.position.x > maxX)
             {
                 Vector3 oldPos = rb.position;
@@ -55,7 +59,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.W))
             {
                 isJumping = true;
-                rb.AddForce(Vector3.up * jumpSpeed);
+                yVelocity = jumpSpeed;
                 jumps--;
             }
         }
@@ -63,14 +67,12 @@ public class PlayerController : MonoBehaviour
         //reduce the jump force if the player lets go early
         if(isJumping && Input.GetKeyUp(KeyCode.W) && rb.velocity.y > 2)
         {
-            rb.AddForce(Vector3.down * counterJump);
+            yVelocity -= counterJump;
         }
 
-        //clamp velocity
-        if (rb.velocity.magnitude > maxSpeed)
-        {
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-        }
+        //set player velocity
+        rb.velocity = new Vector3(xVelocity, yVelocity, rb.velocity.z);
+
     }
 
     void OnCollisionEnter(Collision collision)
