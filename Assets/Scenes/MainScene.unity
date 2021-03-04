@@ -4153,6 +4153,9 @@ MonoBehaviour:
   maxSpeed: 7
   jumpSpeed: 5
   counterJump: 2
+  dashSpeed: 50
+  dashReducer: 4
+  dashCooldown: 5
   minX: -15
   maxX: 15
 --- !u!1001 &1143756470
