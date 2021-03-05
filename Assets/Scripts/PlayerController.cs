@@ -9,11 +9,16 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed = 7.0f;
     public float jumpSpeed = 500.0f;
     public float counterJump = 100.0f;
+    public float dashSpeed = 5.0f;
+    public int dashReducer = 4;
+    float dashTimer = 0.0f;
+    public float dashCooldown = 5.0f;
     float xVelocity = 0.0f;
     float yVelocity = 0.0f;
     public float minX, maxX;
     int jumps = 2;
     bool isJumping = false;
+    string direction = "";
     Rigidbody rb;
     CinemachineVirtualCamera vcam;
 
@@ -27,11 +32,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        direction = "";
         xVelocity = 0.0f;
         yVelocity = rb.velocity.y;
         //side to side movement
         if (Input.GetKey(KeyCode.A))
         {
+            direction = "A";
             xVelocity = -1.0f * moveSpeed;
             if (rb.position.x < minX)
             {
@@ -43,6 +50,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.D))
         {
+            direction = "D";
             xVelocity = moveSpeed;
             if (rb.position.x > maxX)
             {
@@ -64,10 +72,40 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (Input.GetKey(KeyCode.W))
+        {
+            direction += "W";
+        }
+
         //reduce the jump force if the player lets go early
-        if(isJumping && Input.GetKeyUp(KeyCode.W) && rb.velocity.y > 2)
+        if (isJumping && Input.GetKeyUp(KeyCode.W) && rb.velocity.y > 2)
         {
             yVelocity -= counterJump;
+        }
+
+        //dash logic
+        dashTimer -= Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Space) && dashTimer <= 0.0f)
+        {
+            dashTimer = dashCooldown;
+            switch(direction)
+            {
+                case "A":
+                    rb.AddForce(Vector3.left * dashSpeed, ForceMode.Impulse);
+                    break;
+                case "D":
+                    rb.AddForce(Vector3.right * dashSpeed, ForceMode.Impulse);
+                    break;
+                case "AW":
+                    rb.AddForce(new Vector3(-1, 1, 0) * (dashSpeed / dashReducer), ForceMode.Impulse);
+                    break;
+                case "DW":
+                    rb.AddForce(new Vector3(1, 1, 0) * (dashSpeed / dashReducer), ForceMode.Impulse);
+                    break;
+                default:
+                    rb.AddForce(Vector3.up * (dashSpeed / dashReducer), ForceMode.Impulse);
+                    break;
+            }
         }
 
         //set player velocity

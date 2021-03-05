@@ -3557,22 +3557,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9178954478389006293, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
   m_PrefabInstance: {fileID: 1513443362}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &324517781 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9178954478389006293, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
-  m_PrefabInstance: {fileID: 153349288}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &331292807 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9178954478389006293, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
-  m_PrefabInstance: {fileID: 158127018}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &331506710 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9178954478389006293, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
-  m_PrefabInstance: {fileID: 249885540}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &331796130
+  m_GameObject: {fileID: 1133032942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 647ae4fb0db9e774887199752e1fd394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  maxSpeed: 7
+  jumpSpeed: 5
+  counterJump: 2
+  dashSpeed: 50
+  dashReducer: 4
+  dashCooldown: 5
+  minX: -15
+  maxX: 15
+--- !u!1001 &1143756470
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
