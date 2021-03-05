@@ -1907,8 +1907,8 @@
     "m_ShaderOutputName": "Tiling",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 0.20000000298023225,
-        "y": 0.10000000149011612
+        "x": 0.06666667014360428,
+        "y": 0.03333333879709244
     },
     "m_DefaultValue": {
         "x": 0.0,
@@ -2290,8 +2290,8 @@
     "m_ShaderOutputName": "Tiling",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 0.20000000298023225,
-        "y": 0.10000000149011612
+        "x": 0.06666667014360428,
+        "y": 0.03333333879709244
     },
     "m_DefaultValue": {
         "x": 0.0,
@@ -3428,8 +3428,8 @@
     "m_ShaderOutputName": "Tiling",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 0.20000000298023225,
-        "y": 0.10000000149011612
+        "x": 0.06666667014360428,
+        "y": 0.03333333879709244
     },
     "m_DefaultValue": {
         "x": 0.0,
