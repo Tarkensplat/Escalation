@@ -11,14 +11,14 @@ public class MovingPlatform : MonoBehaviour
     float timer;
     Vector3 start;
     float depth;
-    Bounds b;
+    Collider c;
 
     // Start is called before the first frame update
     void Start()
     {
-        b = GetComponent<Collider>().bounds;
-        start = b.center;
-        depth = b.max.z - b.min.z;
+        c = GetComponent<Collider>();
+        start = c.bounds.center;
+        depth = c.bounds.max.z - c.bounds.min.z;
         timer = 0;
     }
 
@@ -59,6 +59,13 @@ public class MovingPlatform : MonoBehaviour
         }
 
     }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        //if (!retracting)
+        //    collision.gameObject.GetComponent<PlayerController>().outsideForce = new Vector3(0, 0, moveSpeed * Time.deltaTime);
+    }
+
 
     IEnumerator Delay(float newSpeed)
     {

@@ -2,26 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallingPlatform : MonoBehaviour
+public class DisappearingPlatform : MonoBehaviour
 {
     public float moveSpeed = 3.0f;
-    public float delay;
-    float fallSpeed;
+    public float disappear;
+    public float reappear;
     float timer;
-    Bounds b;
+    Collider c;
+    Renderer r;
 
     // Start is called before the first frame update
     void Start()
     {
-        b = GetComponent<Collider>().bounds;
+        c = GetComponent<Collider>();
+        r = GetComponent<Renderer>();
         timer = 0;
-        fallSpeed = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y - fallSpeed*Time.deltaTime, transform.position.z);//Why isn't there a round override for precision?
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -31,12 +32,20 @@ public class FallingPlatform : MonoBehaviour
 
     IEnumerator Delay()
     {
-        while (timer < delay)
+        while (timer < disappear)
         {
             yield return null;
             timer += Time.deltaTime;
         }
-        fallSpeed = moveSpeed;
+        r.enabled = false;
+        c.enabled = false;
+        while (timer < reappear)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+        }
+        r.enabled = true;
+        c.enabled = true;
         timer = 0;
     }
 }
