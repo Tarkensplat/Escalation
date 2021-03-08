@@ -12,13 +12,16 @@ public class PlayerController : MonoBehaviour
     public float dashSpeed = 5.0f;
     public int dashReducer = 4;
     float dashTimer = 0.0f;
-    public float dashCooldown = 5.0f;
+    float dashCooldown = 0.25f;
+    bool dashAvailable = true;
     float xVelocity = 0.0f;
     float yVelocity = 0.0f;
     public float minX, maxX;
     int jumps = 2;
     bool isJumping = false;
+    bool grounded = true;
     string direction = "";
+    ParticleSystem ps;
     Rigidbody rb;
     CinemachineVirtualCamera vcam;
 
@@ -27,6 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         vcam = GameObject.FindGameObjectWithTag("Cinemachine Camera").GetComponent<CinemachineVirtualCamera>();
+        ps = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -85,26 +89,44 @@ public class PlayerController : MonoBehaviour
 
         //dash logic
         dashTimer -= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) && dashTimer <= 0.0f)
+        if (Input.GetKeyDown(KeyCode.Space) && dashTimer <= 0.0f && dashAvailable)
         {
+            var psShape = ps.shape;
             dashTimer = dashCooldown;
             switch(direction)
             {
                 case "A":
+                    psShape.rotation = new Vector3(0, 90, 0);
+                    ps.Play();
                     rb.AddForce(Vector3.left * dashSpeed, ForceMode.Impulse);
                     break;
                 case "D":
+                    psShape.rotation = new Vector3(0, 270, 0);
+                    ps.Play();
                     rb.AddForce(Vector3.right * dashSpeed, ForceMode.Impulse);
                     break;
                 case "AW":
+                    psShape.rotation = new Vector3(45, 90, 0);
+                    ps.Play();
+                    grounded = false;
                     rb.AddForce(new Vector3(-1, 1, 0) * (dashSpeed / dashReducer), ForceMode.Impulse);
                     break;
                 case "DW":
+                    psShape.rotation = new Vector3(45, 270, 0);
+                    ps.Play();
+                    grounded = false;
                     rb.AddForce(new Vector3(1, 1, 0) * (dashSpeed / dashReducer), ForceMode.Impulse);
                     break;
                 default:
+                    psShape.rotation = new Vector3(90, 90, 0);
+                    ps.Play();
+                    grounded = false;
                     rb.AddForce(Vector3.up * (dashSpeed / dashReducer), ForceMode.Impulse);
                     break;
+            }
+            if (!grounded)
+            {
+                dashAvailable = false;
             }
         }
 
@@ -116,6 +138,11 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         var normal = collision.contacts[0].normal;
+        if(normal.y > 0)
+        {
+            grounded = true;
+            dashAvailable = true;
+        }
         //reset jumps on landing if needed
         if (jumps != 2)
         {
