@@ -11,8 +11,7 @@ public class PlayerController : MonoBehaviour
     public float counterJump = 100.0f;
     public float dashSpeed = 5.0f;
     public int dashReducer = 4;
-    float dashTimer = 0.0f;
-    public float dashCooldown = 5.0f;
+    public int dashes = 1;
     float xVelocity = 0.0f;
     float yVelocity = 0.0f;
     public float minX, maxX;
@@ -32,6 +31,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float x = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Vertical");
+        float xRaw = Input.GetAxisRaw("Horizontal");
+        float yRaw = Input.GetAxisRaw("Vertical");
+        Vector2 dir = new Vector2(x, y);
+
         direction = "";
         xVelocity = 0.0f;
         yVelocity = rb.velocity.y;
@@ -84,33 +89,45 @@ public class PlayerController : MonoBehaviour
         }
 
         //dash logic
-        dashTimer -= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) && dashTimer <= 0.0f)
-        {
-            dashTimer = dashCooldown;
-            switch(direction)
-            {
-                case "A":
-                    rb.AddForce(Vector3.left * dashSpeed, ForceMode.Impulse);
-                    break;
-                case "D":
-                    rb.AddForce(Vector3.right * dashSpeed, ForceMode.Impulse);
-                    break;
-                case "AW":
-                    rb.AddForce(new Vector3(-1, 1, 0) * (dashSpeed / dashReducer), ForceMode.Impulse);
-                    break;
-                case "DW":
-                    rb.AddForce(new Vector3(1, 1, 0) * (dashSpeed / dashReducer), ForceMode.Impulse);
-                    break;
-                default:
-                    rb.AddForce(Vector3.up * (dashSpeed / dashReducer), ForceMode.Impulse);
-                    break;
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.Space) && dashes > 0)
+        //{
+        //    switch(direction)
+        //    {
+        //        case "A":
+        //            rb.AddForce(Vector3.left * dashSpeed, ForceMode.Impulse);
+        //            break;
+        //        case "D":
+        //            rb.AddForce(Vector3.right * dashSpeed, ForceMode.Impulse);
+        //            break;
+        //        case "AW":
+        //            rb.AddForce(new Vector3(-1, 1, 0) * (dashSpeed / dashReducer), ForceMode.Impulse);
+        //            break;
+        //        case "DW":
+        //            rb.AddForce(new Vector3(1, 1, 0) * (dashSpeed / dashReducer), ForceMode.Impulse);
+        //            break;
+        //        default:
+        //            rb.AddForce(Vector3.up * (dashSpeed / dashReducer), ForceMode.Impulse);
+        //            break;
+        //    }
+
+        //    dashes--;
+        //}
+
+        Dash(xRaw, yRaw);
 
         //set player velocity
         rb.velocity = new Vector3(xVelocity, yVelocity, rb.velocity.z);
+    }
 
+    private void Dash(float x, float y)
+    {
+        // Make the dash function baby
+        dashes--;
+
+        rb.velocity = Vector2.zero;
+        Vector2 dir = new Vector2(x, y);
+
+        // rb.velocity += dir.normalized * dashSpeed;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -124,6 +141,8 @@ public class PlayerController : MonoBehaviour
             {
                 isJumping = false;
                 jumps = 2;
+
+                dashes = 1;
             }
 
         }
