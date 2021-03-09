@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public float minX, maxX;
     int jumps = 2;
     bool isJumping = false;
-    bool grounded = true;
+    public bool grounded = true;
     string direction = "";
     ParticleSystem ps;
     Rigidbody rb;
@@ -37,7 +37,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         direction = "";
-        xVelocity = 0.0f;
         yVelocity = rb.velocity.y;
         //side to side movement
         if (Input.GetKey(KeyCode.A))
@@ -52,7 +51,7 @@ public class PlayerController : MonoBehaviour
                 vcam.OnTargetObjectWarped(transform, newPos - oldPos);
             }
         }
-        if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))
         {
             direction = "D";
             xVelocity = moveSpeed;
@@ -64,12 +63,25 @@ public class PlayerController : MonoBehaviour
                 vcam.OnTargetObjectWarped(transform, newPos - oldPos);
             }
         }
+        else if (Input.GetKeyUp(KeyCode.D))
+        {
+            xVelocity = 0.0f;
+        }
+        else if (Input.GetKeyUp(KeyCode.A))
+        {
+            xVelocity = 0.0f;
+        }
+        else
+        {
+            xVelocity = rb.velocity.x;
+        }
 
         //jump
         if (jumps > 0)
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
+                grounded = false;
                 isJumping = true;
                 yVelocity = jumpSpeed;
                 jumps--;
