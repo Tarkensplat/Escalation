@@ -140,17 +140,6 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector3(xVelocity, yVelocity, rb.velocity.z);
     }
 
-    private void Dash(float x, float y)
-    {
-        // Make the dash function baby
-        dashes--;
-
-        rb.velocity = Vector2.zero;
-        Vector2 dir = new Vector2(x, y);
-
-        // rb.velocity += dir.normalized * dashSpeed;
-    }
-
     void OnCollisionEnter(Collision collision)
     {
         var normal = collision.contacts[0].normal;
@@ -167,8 +156,6 @@ public class PlayerController : MonoBehaviour
             {
                 isJumping = false;
                 jumps = 2;
-
-                dashes = 1;
             }
 
         }
