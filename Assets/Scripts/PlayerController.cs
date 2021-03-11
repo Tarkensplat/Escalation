@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     public LayerMask Platforms;
     public float collisionRadius = 0.25f;
-    public Vector3 bottomOffset, rightOffset, leftOffset;
+    public Vector3 bottomOffset, topRightOffset, bottomRightOffset, topLeftOffset, bottomLeftOffset;
     private Color debugCollisionColor = Color.red;
 
     public float moveSpeed = 3.0f;
@@ -92,13 +92,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (onWall && Input.GetKey(KeyCode.Q))
+        if (onWall && Input.GetKey(KeyCode.LeftShift))
         {
             wallGrab = true;
             wallSlide = false;
         }
 
-        if (Input.GetKeyUp(KeyCode.Q) || !onWall)
+        if (Input.GetKeyUp(KeyCode.LeftShift) || !onWall)
         {
             wallGrab = false;
             wallSlide = false;
@@ -201,11 +201,11 @@ public class PlayerController : MonoBehaviour
     void CheckClimbState()
     {
         onGround = Physics.OverlapSphere(transform.position + bottomOffset, collisionRadius, Platforms).Length > 0;
-        onWall = Physics.OverlapSphere(transform.position + rightOffset, collisionRadius, Platforms).Length > 0
-            || Physics.OverlapSphere(transform.position + leftOffset, collisionRadius, Platforms).Length > 0;
+        onWall = Physics.OverlapCapsule(transform.position + topRightOffset, transform.position + bottomRightOffset, collisionRadius, Platforms).Length > 0
+            || Physics.OverlapCapsule(transform.position + topLeftOffset, transform.position + bottomLeftOffset, collisionRadius, Platforms).Length > 0;
 
-        onRightWall = Physics.OverlapSphere(transform.position + rightOffset, collisionRadius, Platforms).Length > 0;
-        onLeftWall = Physics.OverlapSphere(transform.position + leftOffset, collisionRadius, Platforms).Length > 0;
+        onRightWall = Physics.OverlapCapsule(transform.position + topRightOffset, transform.position + bottomRightOffset, collisionRadius, Platforms).Length > 0;
+        onLeftWall = Physics.OverlapCapsule(transform.position + topLeftOffset, transform.position + bottomLeftOffset, collisionRadius, Platforms).Length > 0;
 
         wallSide = onRightWall ? -1 : 1;
 
@@ -235,10 +235,12 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.red;
 
-        var positions = new Vector2[] { bottomOffset, rightOffset, leftOffset };
+        var positions = new Vector2[] { bottomOffset, topRightOffset, bottomRightOffset, topLeftOffset, bottomLeftOffset };
 
         Gizmos.DrawWireSphere(transform.position + bottomOffset, collisionRadius);
-        Gizmos.DrawWireSphere(transform.position + rightOffset, collisionRadius);
-        Gizmos.DrawWireSphere(transform.position + leftOffset, collisionRadius);
+        Gizmos.DrawWireSphere(transform.position + topRightOffset, collisionRadius);
+        Gizmos.DrawWireSphere(transform.position + bottomRightOffset, collisionRadius);
+        Gizmos.DrawWireSphere(transform.position + topLeftOffset, collisionRadius);
+        Gizmos.DrawWireSphere(transform.position + bottomLeftOffset, collisionRadius);
     }
 }
