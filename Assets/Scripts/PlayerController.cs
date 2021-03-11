@@ -60,7 +60,6 @@ public class PlayerController : MonoBehaviour
         Vector2 dir = new Vector2(x, y);
 
         direction = "";
-        xVelocity = 0.0f;
         yVelocity = rb.velocity.y;
 
         // Set the current climbing state every frame
@@ -79,7 +78,7 @@ public class PlayerController : MonoBehaviour
                 vcam.OnTargetObjectWarped(transform, newPos - oldPos);
             }
         }
-        if (Input.GetKey(KeyCode.D) && (!onRightWall || onGround))
+        else if (Input.GetKey(KeyCode.D) && (!onRightWall || onGround))
         {
             direction = "D";
             xVelocity = moveSpeed;
@@ -90,6 +89,18 @@ public class PlayerController : MonoBehaviour
                 Vector3 newPos = rb.position;
                 vcam.OnTargetObjectWarped(transform, newPos - oldPos);
             }
+        }
+        else if (Input.GetKeyUp(KeyCode.D))
+        {
+            xVelocity = 0.0f;
+        }
+        else if (Input.GetKeyUp(KeyCode.A))
+        {
+            xVelocity = 0.0f;
+        }
+        else
+        {
+            xVelocity = rb.velocity.x;
         }
 
         if (onWall && Input.GetKey(KeyCode.LeftShift))
@@ -136,6 +147,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
+                grounded = false;
                 isJumping = true;
                 yVelocity = jumpSpeed;
                 jumps--;
