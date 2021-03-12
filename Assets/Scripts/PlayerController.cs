@@ -13,13 +13,15 @@ public class PlayerController : MonoBehaviour
     int wallSide;
 
     public LayerMask Platforms;
-    public float collisionRadius = 0.25f;
+    public float wallCollisionRadius = 0.25f;
+    public float groundCollisionRadius = 0.15f;
     public Vector3 bottomOffset, topRightOffset, bottomRightOffset, topLeftOffset, bottomLeftOffset;
     private Color debugCollisionColor = Color.red;
 
     public float moveSpeed = 3.0f;
     public float maxSpeed = 7.0f;
     public float jumpSpeed = 500.0f;
+    public float wallJumpSpeed = 50.0f;
     public float counterJump = 100.0f;
     public float dashSpeed = 5.0f;
     public int dashReducer = 4;
@@ -55,9 +57,6 @@ public class PlayerController : MonoBehaviour
     {
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-        float xRaw = Input.GetAxisRaw("Horizontal");
-        float yRaw = Input.GetAxisRaw("Vertical");
-        Vector2 dir = new Vector2(x, y);
 
         direction = "";
         yVelocity = rb.velocity.y;
@@ -115,6 +114,11 @@ public class PlayerController : MonoBehaviour
             wallSlide = false;
         }
 
+        if (onGround)
+        {
+            wallJumped = false;
+        }
+
         if (wallGrab)
         {
             rb.useGravity = false;
@@ -123,7 +127,7 @@ public class PlayerController : MonoBehaviour
 
             float speedModifier = y > 0 ? .5f : 1;
 
-            rb.velocity = new Vector2(rb.velocity.x, y * (moveSpeed * speedModifier));
+            rb.velocity = new Vector2(0, y * (moveSpeed * speedModifier));
         }
         else
         {
@@ -135,6 +139,8 @@ public class PlayerController : MonoBehaviour
             if (x != 0 && !wallGrab)
             {
                 wallSlide = true;
+                dashAvailable = true;
+
                 WallSlide();
             }
         }
@@ -145,9 +151,8 @@ public class PlayerController : MonoBehaviour
         //jump
         if (jumps > 0)
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) && !onWall)
             {
-                grounded = false;
                 isJumping = true;
                 yVelocity = jumpSpeed;
                 jumps--;
@@ -199,25 +204,25 @@ public class PlayerController : MonoBehaviour
                     rb.AddForce(Vector3.up * (dashSpeed / dashReducer), ForceMode.Impulse);
                     break;
             }
-            if (!onGround)
+            if (!onGround && !onWall)
             {
                 dashAvailable = false;
             }
         }
 
         //set player velocity
-        if(!wallGrab)
+        if(!wallGrab && !wallSlide)
             rb.velocity = new Vector3(xVelocity, yVelocity, rb.velocity.z);
     }
 
     void CheckClimbState()
     {
-        onGround = Physics.OverlapSphere(transform.position + bottomOffset, collisionRadius, Platforms).Length > 0;
-        onWall = Physics.OverlapCapsule(transform.position + topRightOffset, transform.position + bottomRightOffset, collisionRadius, Platforms).Length > 0
-            || Physics.OverlapCapsule(transform.position + topLeftOffset, transform.position + bottomLeftOffset, collisionRadius, Platforms).Length > 0;
+        onGround = Physics.OverlapSphere(transform.position + bottomOffset, groundCollisionRadius, Platforms).Length > 0;
+        onWall = Physics.OverlapCapsule(transform.position + topRightOffset, transform.position + bottomRightOffset, wallCollisionRadius, Platforms).Length > 0
+            || Physics.OverlapCapsule(transform.position + topLeftOffset, transform.position + bottomLeftOffset, wallCollisionRadius, Platforms).Length > 0;
 
-        onRightWall = Physics.OverlapCapsule(transform.position + topRightOffset, transform.position + bottomRightOffset, collisionRadius, Platforms).Length > 0;
-        onLeftWall = Physics.OverlapCapsule(transform.position + topLeftOffset, transform.position + bottomLeftOffset, collisionRadius, Platforms).Length > 0;
+        onRightWall = Physics.OverlapCapsule(transform.position + topRightOffset, transform.position + bottomRightOffset, wallCollisionRadius, Platforms).Length > 0;
+        onLeftWall = Physics.OverlapCapsule(transform.position + topLeftOffset, transform.position + bottomLeftOffset, wallCollisionRadius, Platforms).Length > 0;
 
         wallSide = onRightWall ? -1 : 1;
 
@@ -237,7 +242,7 @@ public class PlayerController : MonoBehaviour
         {
             pushingWall = true;
         }
-        float push = pushingWall ? 0 : rb.velocity.x;
+        float push = pushingWall ? 0 : xVelocity;
 
         rb.velocity = new Vector2(push, -slideSpeed);
     }
@@ -249,10 +254,10 @@ public class PlayerController : MonoBehaviour
 
         var positions = new Vector2[] { bottomOffset, topRightOffset, bottomRightOffset, topLeftOffset, bottomLeftOffset };
 
-        Gizmos.DrawWireSphere(transform.position + bottomOffset, collisionRadius);
-        Gizmos.DrawWireSphere(transform.position + topRightOffset, collisionRadius);
-        Gizmos.DrawWireSphere(transform.position + bottomRightOffset, collisionRadius);
-        Gizmos.DrawWireSphere(transform.position + topLeftOffset, collisionRadius);
-        Gizmos.DrawWireSphere(transform.position + bottomLeftOffset, collisionRadius);
+        Gizmos.DrawWireSphere(transform.position + bottomOffset, groundCollisionRadius);
+        Gizmos.DrawWireSphere(transform.position + topRightOffset, wallCollisionRadius);
+        Gizmos.DrawWireSphere(transform.position + bottomRightOffset, wallCollisionRadius);
+        Gizmos.DrawWireSphere(transform.position + topLeftOffset, wallCollisionRadius);
+        Gizmos.DrawWireSphere(transform.position + bottomLeftOffset, wallCollisionRadius);
     }
 }
