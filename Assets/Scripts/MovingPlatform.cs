@@ -8,6 +8,7 @@ public class MovingPlatform : MonoBehaviour
     public float distance;
     public bool retracting;  //Check if you want the platform to go in and out.  Otherwise it will go left to right
     public float delay;
+
     float timer;
     Vector3 start;
     float depth;
