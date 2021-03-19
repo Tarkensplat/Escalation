@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     float yVelocity = 0.0f;
     public float minX, maxX;
     int jumps = 2;
+    float jumpResetCooldown = 0.25f;
+    float jumpResetTimer = 0.0f;
     bool isJumping = false;
     bool wallGrab;
     bool wallJumped;
@@ -226,12 +228,20 @@ public class PlayerController : MonoBehaviour
 
         wallSide = onRightWall ? -1 : 1;
 
-        if(onGround)
+        if(onGround && jumps != 2 && jumpResetTimer >= jumpResetCooldown)
         {
+            Debug.Log("reset");
+
             dashAvailable = true;
 
             isJumping = false;
             jumps = 2;
+
+            jumpResetTimer = 0;
+        }
+        else if(!onGround && !onWall)
+        {
+            jumpResetTimer += Time.deltaTime;
         }
     }
 
