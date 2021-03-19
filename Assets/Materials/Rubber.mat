@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Rubber
-  m_Shader: {fileID: -6465566751694194690, guid: f7582eaf3b972ed48bea0611bc49dc86, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: c3bd4b728d9aec74f8705eac2c7ff5a5, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -32,8 +32,24 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_1fd961bce9f2464887a71f300277dd75:
+        m_Texture: {fileID: 2800000, guid: 3bf21187a2a324a4f87c1e38ed345ea0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_25dc8e981a114bd1b96d1f43dcd76d6f:
+        m_Texture: {fileID: 2800000, guid: 3dafcbcfa64893b48851a793cd19bb00, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_637fa6b6229942488c254936478887e5:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_aacccb1463914492b97d3cb08134689d:
+        m_Texture: {fileID: 2800000, guid: 8443673df7a8ffd41b7f857f6f946947, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_c274084c92fa47b9a391aefe904c8d34:
+        m_Texture: {fileID: 2800000, guid: 8443673df7a8ffd41b7f857f6f946947, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -105,7 +121,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_6d63df4e19f04406a128658087b12187: 0.015
+    - Vector1_6d63df4e19f04406a128658087b12187: 0.05
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -133,6 +149,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Vector2_8633a1890ff141bcb5238fc03cc2c8bf: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
