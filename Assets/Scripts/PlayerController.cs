@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     float jumpResetTimer = 0.0f;
     bool isJumping = false;
     bool wallGrab;
-    bool wallJumped;
+    // bool wallJumped;
     bool wallSlide;
     string direction = "";
 
@@ -114,11 +114,6 @@ public class PlayerController : MonoBehaviour
         {
             wallGrab = false;
             wallSlide = false;
-        }
-
-        if (onGround)
-        {
-            wallJumped = false;
         }
 
         if (wallGrab)
@@ -258,16 +253,16 @@ public class PlayerController : MonoBehaviour
     }
 
     // Draw red climbing gitboxes for reference
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
 
-        var positions = new Vector2[] { bottomOffset, topRightOffset, bottomRightOffset, topLeftOffset, bottomLeftOffset };
+    //    var positions = new Vector2[] { bottomOffset, topRightOffset, bottomRightOffset, topLeftOffset, bottomLeftOffset };
 
-        Gizmos.DrawWireSphere(transform.position + bottomOffset, groundCollisionRadius);
-        Gizmos.DrawWireSphere(transform.position + topRightOffset, wallCollisionRadius);
-        Gizmos.DrawWireSphere(transform.position + bottomRightOffset, wallCollisionRadius);
-        Gizmos.DrawWireSphere(transform.position + topLeftOffset, wallCollisionRadius);
-        Gizmos.DrawWireSphere(transform.position + bottomLeftOffset, wallCollisionRadius);
-    }
+    //    Gizmos.DrawWireSphere(transform.position + bottomOffset, groundCollisionRadius);
+    //    Gizmos.DrawWireSphere(transform.position + topRightOffset, wallCollisionRadius);
+    //    Gizmos.DrawWireSphere(transform.position + bottomRightOffset, wallCollisionRadius);
+    //    Gizmos.DrawWireSphere(transform.position + topLeftOffset, wallCollisionRadius);
+    //    Gizmos.DrawWireSphere(transform.position + bottomLeftOffset, wallCollisionRadius);
+    //}
 }
