@@ -33,9 +33,11 @@ public class PlayerController : MonoBehaviour
     float yVelocity = 0.0f;
     public float minX, maxX;
     int jumps = 2;
+    float jumpResetCooldown = 0.25f;
+    float jumpResetTimer = 0.0f;
     bool isJumping = false;
     bool wallGrab;
-    bool wallJumped;
+    // bool wallJumped;
     bool wallSlide;
     string direction = "";
 
@@ -112,11 +114,6 @@ public class PlayerController : MonoBehaviour
         {
             wallGrab = false;
             wallSlide = false;
-        }
-
-        if (onGround)
-        {
-            wallJumped = false;
         }
 
         if (wallGrab)
@@ -226,12 +223,20 @@ public class PlayerController : MonoBehaviour
 
         wallSide = onRightWall ? -1 : 1;
 
-        if(onGround)
+        if(onGround && jumps != 2 && jumpResetTimer >= jumpResetCooldown)
         {
+            Debug.Log("reset");
+
             dashAvailable = true;
 
             isJumping = false;
             jumps = 2;
+
+            jumpResetTimer = 0;
+        }
+        else if(!onGround && !onWall)
+        {
+            jumpResetTimer += Time.deltaTime;
         }
     }
 
@@ -248,16 +253,16 @@ public class PlayerController : MonoBehaviour
     }
 
     // Draw red climbing gitboxes for reference
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
 
-        var positions = new Vector2[] { bottomOffset, topRightOffset, bottomRightOffset, topLeftOffset, bottomLeftOffset };
+    //    var positions = new Vector2[] { bottomOffset, topRightOffset, bottomRightOffset, topLeftOffset, bottomLeftOffset };
 
-        Gizmos.DrawWireSphere(transform.position + bottomOffset, groundCollisionRadius);
-        Gizmos.DrawWireSphere(transform.position + topRightOffset, wallCollisionRadius);
-        Gizmos.DrawWireSphere(transform.position + bottomRightOffset, wallCollisionRadius);
-        Gizmos.DrawWireSphere(transform.position + topLeftOffset, wallCollisionRadius);
-        Gizmos.DrawWireSphere(transform.position + bottomLeftOffset, wallCollisionRadius);
-    }
+    //    Gizmos.DrawWireSphere(transform.position + bottomOffset, groundCollisionRadius);
+    //    Gizmos.DrawWireSphere(transform.position + topRightOffset, wallCollisionRadius);
+    //    Gizmos.DrawWireSphere(transform.position + bottomRightOffset, wallCollisionRadius);
+    //    Gizmos.DrawWireSphere(transform.position + topLeftOffset, wallCollisionRadius);
+    //    Gizmos.DrawWireSphere(transform.position + bottomLeftOffset, wallCollisionRadius);
+    //}
 }
