@@ -11,8 +11,7 @@ public class SentryDrone : MonoBehaviour
     Vector3 velocity;
     public bool patrolling = true;
     float zDestroy = -20.0f;
-    public float minX, maxX;
-    public GameObject twin;
+    public GameObject[] copies;
     float alertDelay = 1.5f;
 
     // Start is called before the first frame update
@@ -68,7 +67,12 @@ public class SentryDrone : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
-            twin.GetComponent<SentryDrone>().patrolling = false;
+            //decrease notoriety by 5, don't go below 0
+            NotorietyManager.Notoriety = NotorietyManager.Notoriety > 5 ? NotorietyManager.Notoriety - 5 : 0;
+            for (int i = 0; i < copies.Length; i++)
+            {
+                copies[i].GetComponent<SentryDrone>().patrolling = false;
+            }
             patrolling = false;
         }
     }
