@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public int maxJumps = 2;
     public float slideSpeed = 5;
     public float wallJumpLerp = 10;
+    public float wallJumpMultiplier = 1;
     public float dashSpeed = 20;
     private int jumps = 0;
 
@@ -27,14 +28,6 @@ public class PlayerMovement : MonoBehaviour
     public bool wallSlide;
     public bool isDashing;
 
-    // Wall Climb States
-    private bool onGround;
-    private bool onWall;
-    private bool onRightWall;
-    private bool onLeftWall;
-    private int wallSide;
-
-    // Collision Variables
     [Space]
     [Header("Collison")]
     public LayerMask Platforms;
@@ -43,7 +36,6 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 bottomOffset, topRightOffset, bottomRightOffset, topLeftOffset, bottomLeftOffset;
     private Color debugCollisionColor = Color.red;
 
-    // Collision Variables
     [Space]
     [Header("Dash Camera Shake")]
     public float shakeDuration = 0.3f;
@@ -53,8 +45,20 @@ public class PlayerMovement : MonoBehaviour
     private float shakeElapsedTime = 0f;
 
     [Space]
+    [Header("Hook")]
+    public SpringJoint springJoint;
+    public bool grappling;
+
+    [Space]
     private bool groundTouch;
     private bool hasDashed;
+
+    // Wall Climb States
+    private bool onGround;
+    private bool onWall;
+    private bool onRightWall;
+    private bool onLeftWall;
+    private int wallSide;
 
     public int side = 1;
 
@@ -73,6 +77,8 @@ public class PlayerMovement : MonoBehaviour
         virtualCameraNoise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
         ps = GetComponent<ParticleSystem>();
+
+        springJoint = GetComponent<SpringJoint>();
 
         jumps = maxJumps;
     }
@@ -152,7 +158,26 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Fire1") && !hasDashed)
         {
             if (xRaw != 0 || yRaw != 0)
+            {
                 Dash(xRaw, yRaw);
+
+                hasDashed = true;
+                shakeElapsedTime = shakeDuration;
+            }
+        }
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            grappling = true;
+            GrappleTo();
+        }
+        else if(Input.GetButton("Fire2"))
+        {
+
+        }
+        else if(Input.GetButtonUp("Fire2"))
+        {
+            grappling = false;
         }
 
         if (onGround && !groundTouch)
@@ -166,8 +191,8 @@ public class PlayerMovement : MonoBehaviour
             groundTouch = false;
         }
 
-        if (wallGrab || wallSlide || !canMove)
-            return;
+        //if (wallGrab || wallSlide || !canMove)
+        //    return;
 
         if (x > 0)
         {
@@ -179,6 +204,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         CameraShake();
+        Debug.Log(shakeElapsedTime);
 
         // Wrap around the map
         if (rb.position.x < minX)
@@ -199,6 +225,11 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    void GrappleTo()
+    {
+        // springJoint = 
+    }
+
     void GroundTouch()
     {
         hasDashed = false;
@@ -209,9 +240,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Dash(float x, float y)
     {
-        hasDashed = true;
-        shakeElapsedTime = shakeDuration;
-
         rb.velocity = Vector3.zero;
         Vector3 dir = new Vector3(x, y, 0);
 
@@ -279,7 +307,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 wallDir = onRightWall ? Vector2.left : Vector2.right;
 
-        Jump((Vector2.up / 1.5f + wallDir / 1.5f), true);
+        Jump((Vector2.up * wallJumpMultiplier + wallDir * wallJumpMultiplier), true);
 
         wallJumped = true;
     }
