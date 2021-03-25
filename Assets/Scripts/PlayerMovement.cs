@@ -158,7 +158,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Fire1") && !hasDashed)
         {
             if (xRaw != 0 || yRaw != 0)
+            {
                 Dash(xRaw, yRaw);
+
+                hasDashed = true;
+                shakeElapsedTime = shakeDuration;
+            }
         }
 
         if (Input.GetButtonDown("Fire2"))
@@ -186,8 +191,8 @@ public class PlayerMovement : MonoBehaviour
             groundTouch = false;
         }
 
-        if (wallGrab || wallSlide || !canMove)
-            return;
+        //if (wallGrab || wallSlide || !canMove)
+        //    return;
 
         if (x > 0)
         {
@@ -199,6 +204,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         CameraShake();
+        Debug.Log(shakeElapsedTime);
 
         // Wrap around the map
         if (rb.position.x < minX)
@@ -234,9 +240,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Dash(float x, float y)
     {
-        hasDashed = true;
-        shakeElapsedTime = shakeDuration;
-
         rb.velocity = Vector3.zero;
         Vector3 dir = new Vector3(x, y, 0);
 
