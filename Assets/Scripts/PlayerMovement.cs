@@ -150,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if(jumps > 0)
             {
-                Jump(Vector2.up, false);
+                Jump(Vector2.up, jumpForce, false);
                 jumps--;
             }
         }
@@ -191,8 +191,10 @@ public class PlayerMovement : MonoBehaviour
             groundTouch = false;
         }
 
-        //if (wallGrab || wallSlide || !canMove)
-        //    return;
+        /*
+        if (wallGrab || wallSlide || !canMove)
+            return;
+        */
 
         if (x > 0)
         {
@@ -307,7 +309,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 wallDir = onRightWall ? Vector2.left : Vector2.right;
 
-        Jump((Vector2.up * wallJumpMultiplier + wallDir * wallJumpMultiplier), true);
+        Jump((Vector2.up * wallJumpMultiplier + wallDir * wallJumpMultiplier), jumpForce, true);
 
         wallJumped = true;
     }
@@ -345,10 +347,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Jump(Vector3 dir, bool wall)
+    public void Jump(Vector3 dir, float force, bool wall)
     {
         rb.velocity = new Vector3(rb.velocity.x, 0, 0);
-        rb.velocity += dir * jumpForce;
+        rb.velocity += dir * force;
     }
 
     IEnumerator DisableMovement(float time)
