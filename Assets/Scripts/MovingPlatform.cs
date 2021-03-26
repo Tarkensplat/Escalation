@@ -9,6 +9,7 @@ public class MovingPlatform : MonoBehaviour
     public bool retracting;  //Check if you want the platform to go in and out.  Otherwise it will go left to right
     public float delay;
     public float offset;
+    private float buffer = 0.05f;  //Prevents rounding errors
 
     float timer;
     Vector3 start;
@@ -41,13 +42,13 @@ public class MovingPlatform : MonoBehaviour
             {
                 StartCoroutine(Delay(-moveSpeed));
                 moveSpeed = 0;
-                transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Round(start.z*100)/100);//Why isn't there a round override for precision?
+                transform.position = new Vector3(transform.position.x, transform.position.y, start.z+buffer);//Why isn't there a round override for precision?
             }
             else if (start.z + depth < transform.position.z)
             {
                 StartCoroutine(Delay(-moveSpeed));
                 moveSpeed = 0;
-                transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Round((start.z+depth)*100)/100);//Also this fixes a rounding error
+                transform.position = new Vector3(transform.position.x, transform.position.y, start.z + depth - buffer);//Also this fixes a rounding error
             }
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + moveSpeed * Time.deltaTime);
         }
@@ -57,13 +58,13 @@ public class MovingPlatform : MonoBehaviour
             {
                 StartCoroutine(Delay(-moveSpeed));
                 moveSpeed = 0;
-                transform.position = new Vector3(Mathf.Round((start.x - distance) * 100) / 100, transform.position.y, transform.position.z);
+                transform.position = new Vector3(start.x - distance + buffer, transform.position.y, transform.position.z);
             }
             else if (start.x + distance < transform.position.x)
             {
                 StartCoroutine(Delay(-moveSpeed));
                 moveSpeed = 0;
-                transform.position = new Vector3(Mathf.Round((start.x + distance) * 100) / 100, transform.position.y, transform.position.z);
+                transform.position = new Vector3(start.x + distance - buffer, transform.position.y, transform.position.z);
             }
             transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
         }
