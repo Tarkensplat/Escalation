@@ -4,39 +4,56 @@ using UnityEngine;
 
 public class BouncePad : MonoBehaviour
 {
+    public GameObject player;
 
     public float bounceForce;
     public string direction;
+    public float disableTime;
 
     void OnCollisionEnter(Collision collision)
     {
         var rb = collision.rigidbody;
         rb.velocity = new Vector3(0, 0, 0);
+
+        // Reset jump count and dash
+        player.GetComponent<PlayerMovement>().currentJumps =
+            player.GetComponent<PlayerMovement>().maxJumps;
+
+        player.GetComponent<PlayerMovement>().hasDashed = false;
+
         switch (direction)
         {
             case "L":
-                rb.AddForce(Vector3.left * bounceForce, ForceMode.Impulse);
+                player.GetComponent<PlayerMovement>().PointLaunch(Vector3.left, bounceForce, disableTime);
+                // rb.AddForce(Vector3.left * bounceForce, ForceMode.Impulse);
                 break;
             case "R":
-                rb.AddForce(Vector3.right * bounceForce, ForceMode.Impulse);
+                player.GetComponent<PlayerMovement>().PointLaunch(Vector3.right, bounceForce, disableTime);
+                // rb.AddForce(Vector3.right * bounceForce, ForceMode.Impulse);
                 break;
             case "LU":
-                rb.AddForce(new Vector3(-1, 1, 0) * bounceForce, ForceMode.Impulse);
+                player.GetComponent<PlayerMovement>().PointLaunch(new Vector3(-1, 1, 0), bounceForce, disableTime);
+                // rb.AddForce(new Vector3(-1, 1, 0) * bounceForce, ForceMode.Impulse);
                 break;
             case "RU":
-                rb.AddForce(new Vector3(1, 1, 0) * bounceForce, ForceMode.Impulse);
+                player.GetComponent<PlayerMovement>().PointLaunch(new Vector3(1, 1, 0), bounceForce, disableTime);
+                // rb.AddForce(new Vector3(1, 1, 0) * bounceForce, ForceMode.Impulse);
                 break;
             case "D":
-                rb.AddForce(Vector3.down * bounceForce, ForceMode.Impulse);
+                player.GetComponent<PlayerMovement>().PointLaunch(Vector3.down, bounceForce, disableTime);
+                // rb.AddForce(Vector3.down * bounceForce, ForceMode.Impulse);
                 break;
             case "LD":
-                rb.AddForce(new Vector3(-1, -1, 0) * bounceForce, ForceMode.Impulse);
+                player.GetComponent<PlayerMovement>().PointLaunch(new Vector3(-1, -1, 0), bounceForce, disableTime);
+                // rb.AddForce(new Vector3(-1, -1, 0) * bounceForce, ForceMode.Impulse);
                 break;
             case "RD":
-                rb.AddForce(new Vector3(1, -1, 0) * bounceForce, ForceMode.Impulse);
+                player.GetComponent<PlayerMovement>().PointLaunch(new Vector3(1, -1, 0), bounceForce, disableTime);
+                // rb.AddForce(new Vector3(1, -1, 0) * bounceForce, ForceMode.Impulse);
                 break;
             default:
-                rb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
+                player.GetComponent<PlayerMovement>().PointLaunch(Vector3.up, bounceForce, disableTime);
+                // rb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
                 break;
         }
     }

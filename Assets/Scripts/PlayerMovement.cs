@@ -18,13 +18,13 @@ public class PlayerMovement : MonoBehaviour
     public float wallJumpLerp = 10;
     public float wallJumpMultiplier = 1;
     public float dashSpeed = 20;
-    private int jumps = 0;
+    public int currentJumps = 0;
 
     [Space]
     [Header("Booleans")]
     public bool canMove;
     public bool wallGrab;
-    public bool wallJumped;
+    public bool forceApplied;
     public bool wallSlide;
     public bool isDashing;
 
@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Space]
     private bool groundTouch;
-    private bool hasDashed;
+    public bool hasDashed;
 
     // Wall Climb States
     private bool onGround;
@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
 
         springJoint = GetComponent<SpringJoint>();
 
-        jumps = maxJumps;
+        currentJumps = maxJumps;
     }
 
     // Update is called once per frame
@@ -111,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (onGround && !isDashing)
         {
-            wallJumped = false;
+            forceApplied = false;
             GetComponent<BetterJumping>().enabled = true;
         }
 
@@ -146,12 +146,12 @@ public class PlayerMovement : MonoBehaviour
         {
             if (onWall && !onGround)
             {
-                WallJump();
+                PointLaunch();
             }
-            else if(jumps > 0)
+            else if(currentJumps > 0)
             {
-                Jump(Vector2.up, false);
-                jumps--;
+                Jump(Vector2.up, jumpForce);
+                currentJumps--;
             }
         }
 
@@ -191,8 +191,15 @@ public class PlayerMovement : MonoBehaviour
             groundTouch = false;
         }
 
-        //if (wallGrab || wallSlide || !canMove)
-        //    return;
+        // Elapse camera shake timer
+        CameraShake();
+
+        // Wrap around the map
+        WrapMap();
+
+        // If in a special state or unable to move, do not update side information
+        if (wallGrab || wallSlide || !canMove)
+            return;
 
         if (x > 0)
         {
@@ -202,27 +209,6 @@ public class PlayerMovement : MonoBehaviour
         {
             side = -1;
         }
-
-        CameraShake();
-        Debug.Log(shakeElapsedTime);
-
-        // Wrap around the map
-        if (rb.position.x < minX)
-        {
-            Vector3 oldPos = rb.position;
-            rb.position = new Vector3(maxX, transform.position.y, transform.position.z);
-            Vector3 newPos = rb.position;
-            vcam.OnTargetObjectWarped(transform, newPos - oldPos);
-        }
-
-        if (rb.position.x > maxX)
-        {
-            Vector3 oldPos = rb.position;
-            rb.position = new Vector3(minX, transform.position.y, transform.position.z);
-            Vector3 newPos = rb.position;
-            vcam.OnTargetObjectWarped(transform, newPos - oldPos);
-        }
-
     }
 
     void GrappleTo()
@@ -235,7 +221,7 @@ public class PlayerMovement : MonoBehaviour
         hasDashed = false;
         isDashing = false;
 
-        jumps = maxJumps;
+        currentJumps = maxJumps;
     }
 
     private void Dash(float x, float y)
@@ -255,7 +241,7 @@ public class PlayerMovement : MonoBehaviour
         ps.Play();
         rb.useGravity = false;
         GetComponent<BetterJumping>().enabled = false;
-        wallJumped = true;
+        forceApplied = true;
         isDashing = true;
 
         yield return new WaitForSeconds(.3f);
@@ -263,7 +249,7 @@ public class PlayerMovement : MonoBehaviour
         ps.Stop();
         rb.useGravity = true;
         GetComponent<BetterJumping>().enabled = true;
-        wallJumped = false;
+        forceApplied = false;
         isDashing = false;
     }
 
@@ -295,7 +281,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void WallJump()
+    // PointLaunch method for the standard wall jump
+    private void PointLaunch()
     {
         if ((side == 1 && onRightWall) || side == -1 && !onRightWall)
         {
@@ -307,9 +294,21 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 wallDir = onRightWall ? Vector2.left : Vector2.right;
 
-        Jump((Vector2.up * wallJumpMultiplier + wallDir * wallJumpMultiplier), true);
+        Jump((Vector2.up * wallJumpMultiplier + wallDir * wallJumpMultiplier), jumpForce);
 
-        wallJumped = true;
+        forceApplied = true;
+    }
+
+    // Generalized form of PointLaunch() method
+    // Used to apply forces to the player
+    public void PointLaunch(Vector3 dir, float force, float timeDisabled)
+    {
+        StopCoroutine(DisableMovement(0));
+        StartCoroutine(DisableMovement(timeDisabled));
+
+        Jump(dir, force);
+
+        forceApplied = true;
     }
 
     private void WallSlide()
@@ -335,7 +334,7 @@ public class PlayerMovement : MonoBehaviour
         if (wallGrab)
             return;
 
-        if (!wallJumped)
+        if (!forceApplied)
         {
             rb.velocity = new Vector3(dir.x * speed, rb.velocity.y, 0);
         }
@@ -345,10 +344,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Jump(Vector3 dir, bool wall)
+    private void Jump(Vector3 dir, float force)
     {
         rb.velocity = new Vector3(rb.velocity.x, 0, 0);
-        rb.velocity += dir * jumpForce;
+        rb.velocity += dir * force;
     }
 
     IEnumerator DisableMovement(float time)
@@ -361,6 +360,25 @@ public class PlayerMovement : MonoBehaviour
     void RigidbodyDrag(float x)
     {
         rb.drag = x;
+    }
+
+    private void WrapMap()
+    {
+        if (rb.position.x < minX)
+        {
+            Vector3 oldPos = rb.position;
+            rb.position = new Vector3(maxX, transform.position.y, transform.position.z);
+            Vector3 newPos = rb.position;
+            vcam.OnTargetObjectWarped(transform, newPos - oldPos);
+        }
+
+        if (rb.position.x > maxX)
+        {
+            Vector3 oldPos = rb.position;
+            rb.position = new Vector3(minX, transform.position.y, transform.position.z);
+            Vector3 newPos = rb.position;
+            vcam.OnTargetObjectWarped(transform, newPos - oldPos);
+        }
     }
 
     void CheckClimbState()
