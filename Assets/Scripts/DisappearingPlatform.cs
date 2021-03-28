@@ -44,8 +44,8 @@ public class DisappearingPlatform : MonoBehaviour
             yield return null;
             timer += Time.deltaTime;
         }
+        timer = 0;
         r.enabled = true;
         c.enabled = true;
-        timer = 0;
     }
 }
