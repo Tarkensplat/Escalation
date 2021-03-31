@@ -28595,34 +28595,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9178954478389006293, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
   m_PrefabInstance: {fileID: 523632408}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &973934379 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9178954478389006297, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
-  m_PrefabInstance: {fileID: 1670693203}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &973934380 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9178954478389006293, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
   m_PrefabInstance: {fileID: 1670693203}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &973934381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 973934379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  distance: 1
-  retracting: 1
-  delayIn: 0
-  delayOut: 0
-  offset: 0
 --- !u!1001 &975199512
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48054,34 +48031,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9178954478389006293, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
   m_PrefabInstance: {fileID: 1494142320}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1803773920 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9178954478389006297, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
-  m_PrefabInstance: {fileID: 1093185893}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1803773921 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9178954478389006293, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
   m_PrefabInstance: {fileID: 1093185893}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1803773922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1803773920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  distance: 1
-  retracting: 1
-  delayIn: 0
-  delayOut: 0
-  offset: 0
 --- !u!4 &1805728022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9178954478389006293, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
@@ -48942,7 +48896,7 @@ MonoBehaviour:
   moveSpeed: 4
   distance: 4
   retracting: 0
-  delayIn: 0
+  delayIn: 2
   delayOut: 0
   offset: 0.2
 --- !u!1 &1851405723
@@ -50578,11 +50532,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delayIn: 0
-  delayOut: 0
+  delayIn: 0.5
+  delayOut: 3
   offset: 0
 --- !u!1001 &1933222207
 PrefabInstance:

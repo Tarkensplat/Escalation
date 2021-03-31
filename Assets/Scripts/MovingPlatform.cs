@@ -99,6 +99,7 @@ public class MovingPlatform : MonoBehaviour
         }
         timer = 0;
         moveSpeed = newSpeed;
-        c.enabled = false;
+        if (retracting)
+            c.enabled = false;
     }
 }
