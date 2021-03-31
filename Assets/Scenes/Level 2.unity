@@ -215,10 +215,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &2189975
 PrefabInstance:
@@ -937,10 +938,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1 &38601900
 GameObject:
@@ -3349,10 +3351,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.2
 --- !u!1001 &133251946
 PrefabInstance:
@@ -4571,10 +4574,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1 &183544731 stripped
 GameObject:
@@ -4598,10 +4602,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!4 &185111156 stripped
 Transform:
@@ -4630,10 +4635,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!4 &186372219 stripped
 Transform:
@@ -5310,7 +5316,8 @@ MonoBehaviour:
   moveSpeed: 4
   distance: 4
   retracting: 0
-  delay: 0.25
+  delayIn: 0
+  delayOut: 0
   offset: 0.2
 --- !u!114 &204973436
 MonoBehaviour:
@@ -6262,10 +6269,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &253404111
 PrefabInstance:
@@ -7228,10 +7236,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!4 &269926283 stripped
 Transform:
@@ -7454,10 +7463,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!4 &277932122 stripped
 Transform:
@@ -11469,10 +11479,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &449423160
 PrefabInstance:
@@ -11879,11 +11890,15 @@ MonoBehaviour:
   speed: 5
   jumpForce: 5
   maxJumps: 2
+  climbTime: 3
+  climbTimer: 0
   slideSpeed: 1
   wallJumpLerp: 2
   wallJumpMultiplier: 1.5
   dashSpeed: 30
   currentJumps: 0
+  jumpInfluence: 5
+  bounceInfluence: 2
   canMove: 1
   wallGrab: 0
   forceApplied: 0
@@ -17311,10 +17326,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &503216352
 PrefabInstance:
@@ -19615,10 +19631,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &597189758
 PrefabInstance:
@@ -19707,10 +19724,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!4 &599977813 stripped
 Transform:
@@ -21590,10 +21608,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1 &672184195
 GameObject:
@@ -22162,10 +22181,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.5
 --- !u!4 &701096546 stripped
 Transform:
@@ -24983,10 +25003,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.1
 --- !u!1001 &827207089
 PrefabInstance:
@@ -26951,10 +26972,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.4
 --- !u!1001 &914025080
 PrefabInstance:
@@ -27498,10 +27520,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.6
 --- !u!1001 &933163801
 PrefabInstance:
@@ -28597,7 +28620,8 @@ MonoBehaviour:
   moveSpeed: 3
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0
+  delayOut: 0
   offset: 0
 --- !u!1001 &975199512
 PrefabInstance:
@@ -28943,10 +28967,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!4 &991153288 stripped
 Transform:
@@ -29556,10 +29581,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &1019041824
 PrefabInstance:
@@ -32646,10 +32672,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &1130753716
 PrefabInstance:
@@ -34546,10 +34573,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &1217044837
 PrefabInstance:
@@ -34985,10 +35013,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.4
 --- !u!1001 &1238911504
 PrefabInstance:
@@ -36849,10 +36878,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &1341646830
 PrefabInstance:
@@ -37386,10 +37416,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &1367072790
 PrefabInstance:
@@ -37825,10 +37856,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.3
 --- !u!1001 &1381646598
 PrefabInstance:
@@ -37917,10 +37949,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.7
 --- !u!1001 &1383771913
 PrefabInstance:
@@ -38131,10 +38164,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1 &1388761925
 GameObject:
@@ -41114,10 +41148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.5
 --- !u!1001 &1474035757
 PrefabInstance:
@@ -42600,10 +42635,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!4 &1539544344 stripped
 Transform:
@@ -42946,10 +42982,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &1549167134
 PrefabInstance:
@@ -43500,10 +43537,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.7
 --- !u!1001 &1569324640
 PrefabInstance:
@@ -44863,10 +44901,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.6
 --- !u!4 &1633450370 stripped
 Transform:
@@ -44991,10 +45030,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &1640173293
 PrefabInstance:
@@ -48039,7 +48079,8 @@ MonoBehaviour:
   moveSpeed: 3
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0
+  delayOut: 0
   offset: 0
 --- !u!4 &1805728022 stripped
 Transform:
@@ -48219,10 +48260,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.3
 --- !u!4 &1819060936 stripped
 Transform:
@@ -48850,10 +48892,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.1
 --- !u!4 &1837896444 stripped
 Transform:
@@ -48899,7 +48942,8 @@ MonoBehaviour:
   moveSpeed: 4
   distance: 4
   retracting: 0
-  delay: 0.25
+  delayIn: 0
+  delayOut: 0
   offset: 0.2
 --- !u!1 &1851405723
 GameObject:
@@ -49789,10 +49833,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0.25
+  delayOut: 2
   offset: 0
 --- !u!1001 &1885394614
 PrefabInstance:
@@ -50188,10 +50233,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 10
   distance: 3
   retracting: 1
-  delay: 0.25
+  delayIn: 0.4
+  delayOut: 1.5
   offset: 0.2
 --- !u!4 &1923208178 stripped
 Transform:
@@ -50535,7 +50581,8 @@ MonoBehaviour:
   moveSpeed: 3
   distance: 1
   retracting: 1
-  delay: 0.75
+  delayIn: 0
+  delayOut: 0
   offset: 0
 --- !u!1001 &1933222207
 PrefabInstance:
