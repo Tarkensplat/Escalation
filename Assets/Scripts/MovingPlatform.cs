@@ -67,6 +67,16 @@ public class MovingPlatform : MonoBehaviour
         //    collision.gameObject.GetComponent<PlayerController>().outsideForce = new Vector3(0, 0, moveSpeed * Time.deltaTime);
     }
 
+    // Make player attach to platform when landing on it
+    private void OnTriggerEnter(Collider other)
+    {
+        other.transform.parent = transform;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        other.transform.parent = null;
+    }
 
     IEnumerator Delay(float newSpeed)
     {

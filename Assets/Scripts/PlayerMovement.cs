@@ -14,11 +14,15 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 10;
     public float jumpForce = 50;
     public int maxJumps = 2;
+    public float climbTime = 3.0f;
+    public float climbTimer = 0.0f;
     public float slideSpeed = 5;
     public float wallJumpLerp = 10;
     public float wallJumpMultiplier = 1;
     public float dashSpeed = 20;
     public int currentJumps = 0;
+    public float jumpInfluence = 5;
+    public float bounceInfluence = 2;
 
     [Space]
     [Header("Booleans")]
@@ -81,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
         springJoint = GetComponent<SpringJoint>();
 
         currentJumps = maxJumps;
+        climbTimer = climbTime;
     }
 
     // Update is called once per frame
@@ -101,6 +106,9 @@ public class PlayerMovement : MonoBehaviour
         {
             wallGrab = true;
             wallSlide = false;
+
+            if(climbTimer > 0)
+                climbTimer -= Time.deltaTime;
         }
 
         if (Input.GetButtonUp("Fire3") || !onWall || !canMove)
@@ -115,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
             GetComponent<BetterJumping>().enabled = true;
         }
 
-        if (wallGrab && !isDashing)
+        if (wallGrab && !isDashing && climbTimer > 0)
         {
             rb.useGravity = false;
             if (x > .2f || x < -.2f)
@@ -221,6 +229,12 @@ public class PlayerMovement : MonoBehaviour
         hasDashed = false;
         isDashing = false;
 
+        if(GetComponent<BetterJumping>().lowJumpMultiplier != jumpInfluence && canMove)
+        {
+            GetComponent<BetterJumping>().lowJumpMultiplier = jumpInfluence;
+        }
+
+        climbTimer = climbTime;
         currentJumps = maxJumps;
     }
 
@@ -281,6 +295,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Generalized form of PointLaunch() method
+    // Used to apply forces to the player
+    public void PointLaunch(Vector3 dir, float force, float timeDisabled)
+    {
+        StopCoroutine(DisableMovement(0));
+        StartCoroutine(DisableMovement(timeDisabled));
+
+        GetComponent<BetterJumping>().lowJumpMultiplier = bounceInfluence;
+
+        Jump(dir, force);
+
+        forceApplied = true;
+    }
+
     // PointLaunch method for the standard wall jump
     private void PointLaunch()
     {
@@ -295,18 +323,6 @@ public class PlayerMovement : MonoBehaviour
         Vector2 wallDir = onRightWall ? Vector2.left : Vector2.right;
 
         Jump((Vector2.up * wallJumpMultiplier + wallDir * wallJumpMultiplier), jumpForce);
-
-        forceApplied = true;
-    }
-
-    // Generalized form of PointLaunch() method
-    // Used to apply forces to the player
-    public void PointLaunch(Vector3 dir, float force, float timeDisabled)
-    {
-        StopCoroutine(DisableMovement(0));
-        StartCoroutine(DisableMovement(timeDisabled));
-
-        Jump(dir, force);
 
         forceApplied = true;
     }
