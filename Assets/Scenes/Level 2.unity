@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26468298, g: 0.15711984, b: 0.16661903, a: 1}
+  m_IndirectSpecularColor: {r: 0.26468018, g: 0.15711376, b: 0.16661403, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11899,6 +11899,7 @@ MonoBehaviour:
   currentJumps: 0
   jumpInfluence: 5
   bounceInfluence: 2
+  currentInfluence: 0
   canMove: 1
   wallGrab: 0
   forceApplied: 0
@@ -11917,8 +11918,13 @@ MonoBehaviour:
   shakeDuration: 0.1
   shakeAmplitude: 3
   shakeFrequency: 1
-  springJoint: {fileID: 456220140}
+  tempHook: {fileID: 0}
   grappling: 0
+  maxHookModifier: 0.8
+  minHookModifier: 0.2
+  hookSpring: 4.5
+  hookDamper: 7
+  grappleMassScale: 4.5
   hasDashed: 0
   side: 1
   minX: -45
@@ -43492,34 +43498,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
---- !u!1 &1566252790 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9178954478389006297, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
-  m_PrefabInstance: {fileID: 1619236691}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1566252791 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9178954478389006293, guid: 5692a25306902d842ad67b2c0158611e, type: 3}
   m_PrefabInstance: {fileID: 1619236691}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1566252795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566252790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f8ef941aa36124a9c6562f54ee422d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
-  distance: 3
-  retracting: 1
-  delayIn: 0.4
-  delayOut: 1.5
-  offset: 0.7
 --- !u!1001 &1569324640
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48899,6 +48882,19 @@ MonoBehaviour:
   delayIn: 2
   delayOut: 0
   offset: 0.2
+--- !u!65 &1846298804
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846298800}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 0.9, z: 1.0000001}
+  m_Center: {x: 0, y: 0, z: 0.3}
 --- !u!1 &1851405723
 GameObject:
   m_ObjectHideFlags: 0
