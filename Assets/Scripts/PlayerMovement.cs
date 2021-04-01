@@ -11,8 +11,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Space]
     [Header("Stats")]
-    public float speed = 10;
-    public float jumpForce = 50;
+    private float currentSpeed = 10.0f;
+    public float baseSpeed = 10.0f;
+    public float jumpForce = 50.0f;
     public int maxJumps = 2;
     public float climbTime = 3.0f;
     public float climbTimer = 0.0f;
@@ -58,11 +59,13 @@ public class PlayerMovement : MonoBehaviour
     private LineRenderer lr;
     private Vector3 grapplePoint;
 
+    public float grappleSpeed = 5.0f;
     public float maxHookModifier = 0.8f;
     public float minHookModifier = 0.2f;
     public float hookSpring = 4.5f;
     public float hookDamper = 7f;
     public float grappleMassScale = 4.5f;
+    public float grappleDisconnectForce = 50.0f;
 
     [Space]
     private bool groundTouch;
@@ -93,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
         vcam = GameObject.FindGameObjectWithTag("Cinemachine Camera").GetComponent<CinemachineVirtualCamera>();
         virtualCameraNoise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
+        currentSpeed = baseSpeed;
         currentJumps = maxJumps;
         currentInfluence = jumpInfluence;
 
@@ -143,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
 
             float speedModifier = y > 0 ? .5f : 1;
 
-            rb.velocity = new Vector3(0, y * (speed * speedModifier), 0);
+            rb.velocity = new Vector3(0, y * (currentSpeed * speedModifier), 0);
         }
         else
         {
@@ -188,16 +192,16 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        //if (Input.GetButtonDown("Fire2"))
-        //{
-        //    grappling = true;
-        //    GrappleTo();
-        //}
-        //else if(Input.GetButtonUp("Fire2"))
-        //{
-        //    grappling = false;
-        //    ReleaseGrapple();
-        //}
+        if (Input.GetButtonDown("Fire2"))
+        {
+            grappling = true;
+            GrappleTo();
+        }
+        else if (Input.GetButtonUp("Fire2"))
+        {
+            grappling = false;
+            ReleaseGrapple();
+        }
 
         if (onGround && !groundTouch)
         {
@@ -258,15 +262,28 @@ public class PlayerMovement : MonoBehaviour
         grapplingHook.damper = hookDamper;
         grapplingHook.massScale = grappleMassScale;
 
+        currentSpeed = grappleSpeed;
+
         // 2 being the number of points that make up the hook line
         lr.positionCount = 2;
+
+        currentJumps = maxJumps;
+        forceApplied = true;
     }
 
     private void ReleaseGrapple()
     {
+        currentSpeed = baseSpeed;
+
         lr.positionCount = 0;
 
+        currentJumps = maxJumps;
+        hasDashed = false;
+        forceApplied = false;
+
         Destroy(grapplingHook);
+
+        Jump(Vector3.up, grappleDisconnectForce);
     }
 
     private void RenderHook()
@@ -410,11 +427,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (!forceApplied)
         {
-            rb.velocity = new Vector3(dir.x * speed, rb.velocity.y, 0);
+            rb.velocity = new Vector3(dir.x * currentSpeed, rb.velocity.y, 0);
         }
         else
         {
-            rb.velocity = Vector3.Lerp(rb.velocity, (new Vector2(dir.x * speed, rb.velocity.y)), wallJumpLerp * Time.deltaTime);
+            rb.velocity = Vector3.Lerp(rb.velocity, (new Vector2(dir.x * currentSpeed, rb.velocity.y)), wallJumpLerp * Time.deltaTime);
         }
     }
 
