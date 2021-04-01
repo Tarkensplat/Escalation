@@ -51,8 +51,18 @@ public class PlayerMovement : MonoBehaviour
 
     [Space]
     [Header("Hook")]
-    public SpringJoint springJoint;
+    public GameObject tempHook;
+    private SpringJoint grapplingHook;
     public bool grappling;
+
+    private LineRenderer lr;
+    private Vector3 grapplePoint;
+
+    public float maxHookModifier = 0.8f;
+    public float minHookModifier = 0.2f;
+    public float hookSpring = 4.5f;
+    public float hookDamper = 7f;
+    public float grappleMassScale = 4.5f;
 
     [Space]
     private bool groundTouch;
@@ -77,13 +87,11 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        ps = GetComponent<ParticleSystem>();
+        lr = GetComponent<LineRenderer>();
 
         vcam = GameObject.FindGameObjectWithTag("Cinemachine Camera").GetComponent<CinemachineVirtualCamera>();
         virtualCameraNoise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-        ps = GetComponent<ParticleSystem>();
-
-        springJoint = GetComponent<SpringJoint>();
 
         currentJumps = maxJumps;
         currentInfluence = jumpInfluence;
@@ -185,13 +193,10 @@ public class PlayerMovement : MonoBehaviour
             grappling = true;
             GrappleTo();
         }
-        else if(Input.GetButton("Fire2"))
-        {
-
-        }
         else if(Input.GetButtonUp("Fire2"))
         {
             grappling = false;
+            ReleaseGrapple();
         }
 
         if (onGround && !groundTouch)
@@ -229,9 +234,48 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void GrappleTo()
+    // Call RenderGrapple() in LateUpdate() so that it accurately tracks the player
+    void LateUpdate()
     {
-        // springJoint = 
+        RenderHook();
+    }
+
+    private void GrappleTo()
+    {
+        grapplePoint = tempHook.transform.position;
+
+        grapplingHook = gameObject.AddComponent<SpringJoint>();
+        grapplingHook.autoConfigureConnectedAnchor = false;
+        grapplingHook.connectedAnchor = grapplePoint;
+
+        float hookDistance = Vector3.Distance(transform.position, grapplePoint);
+
+        grapplingHook.maxDistance = hookDistance * maxHookModifier;
+        grapplingHook.minDistance = hookDistance * minHookModifier;
+
+        // Spring characteristics of grapple point
+        grapplingHook.spring = hookSpring;
+        grapplingHook.damper = hookDamper;
+        grapplingHook.massScale = grappleMassScale;
+
+        // 2 being the number of points that make up the hook line
+        lr.positionCount = 2;
+    }
+
+    private void ReleaseGrapple()
+    {
+        lr.positionCount = 0;
+
+        Destroy(grapplingHook);
+    }
+
+    private void RenderHook()
+    {
+        // Do not render line when not grappled
+        if (!grapplingHook) return;
+
+        lr.SetPosition(0, gameObject.transform.position);
+        lr.SetPosition(1, grapplePoint);
     }
 
     void GroundTouch()
