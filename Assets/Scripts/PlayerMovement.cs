@@ -16,13 +16,14 @@ public class PlayerMovement : MonoBehaviour
     public int maxJumps = 2;
     public float climbTime = 3.0f;
     public float climbTimer = 0.0f;
-    public float slideSpeed = 5;
-    public float wallJumpLerp = 10;
-    public float wallJumpMultiplier = 1;
-    public float dashSpeed = 20;
+    public float slideSpeed = 5.0f;
+    public float wallJumpLerp = 10.0f;
+    public float wallJumpMultiplier = 1.0f;
+    public float dashSpeed = 20.0f;
     public int currentJumps = 0;
-    public float jumpInfluence = 5;
-    public float bounceInfluence = 2;
+    public float jumpInfluence = 5.0f;
+    public float bounceInfluence = 2.0f;
+    public float currentInfluence;
 
     [Space]
     [Header("Booleans")]
@@ -85,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
         springJoint = GetComponent<SpringJoint>();
 
         currentJumps = maxJumps;
+        currentInfluence = jumpInfluence;
+
         climbTimer = climbTime;
     }
 
@@ -121,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
         {
             forceApplied = false;
             GetComponent<BetterJumping>().enabled = true;
+            GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
         }
 
         if (wallGrab && !isDashing && climbTimer > 0)
@@ -158,6 +162,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else if(currentJumps > 0)
             {
+                currentInfluence = jumpInfluence;
+                GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
                 Jump(Vector2.up, jumpForce);
                 currentJumps--;
             }
@@ -199,6 +205,10 @@ public class PlayerMovement : MonoBehaviour
             groundTouch = false;
         }
 
+        // Make sure aerial influence is correct every frame
+        if (GetComponent<BetterJumping>().lowJumpMultiplier != currentInfluence)
+            GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
+
         // Elapse camera shake timer
         CameraShake();
 
@@ -229,11 +239,6 @@ public class PlayerMovement : MonoBehaviour
         hasDashed = false;
         isDashing = false;
 
-        if(GetComponent<BetterJumping>().lowJumpMultiplier != jumpInfluence && canMove)
-        {
-            GetComponent<BetterJumping>().lowJumpMultiplier = jumpInfluence;
-        }
-
         climbTimer = climbTime;
         currentJumps = maxJumps;
     }
@@ -250,11 +255,12 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator DashWait()
     {
         StartCoroutine(GroundDash());
-        DOVirtual.Float(14, 0, .8f, RigidbodyDrag);
+        DOVirtual.Float(14, 1, .8f, RigidbodyDrag);
+
+        GetComponent<BetterJumping>().enabled = false;
 
         ps.Play();
         rb.useGravity = false;
-        GetComponent<BetterJumping>().enabled = false;
         forceApplied = true;
         isDashing = true;
 
@@ -262,9 +268,11 @@ public class PlayerMovement : MonoBehaviour
 
         ps.Stop();
         rb.useGravity = true;
-        GetComponent<BetterJumping>().enabled = true;
         forceApplied = false;
         isDashing = false;
+
+        GetComponent<BetterJumping>().enabled = true;
+        GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
     }
 
     IEnumerator GroundDash()
@@ -272,6 +280,11 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(.15f);
         if (onGround)
             hasDashed = false;
+    }
+
+    void RigidbodyDrag(float x)
+    {
+        rb.drag = x;
     }
 
     private void CameraShake()
@@ -299,10 +312,11 @@ public class PlayerMovement : MonoBehaviour
     // Used to apply forces to the player
     public void PointLaunch(Vector3 dir, float force, float timeDisabled)
     {
+        currentInfluence = bounceInfluence;
+        GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
+
         StopCoroutine(DisableMovement(0));
         StartCoroutine(DisableMovement(timeDisabled));
-
-        GetComponent<BetterJumping>().lowJumpMultiplier = bounceInfluence;
 
         Jump(dir, force);
 
@@ -371,11 +385,6 @@ public class PlayerMovement : MonoBehaviour
         canMove = false;
         yield return new WaitForSeconds(time);
         canMove = true;
-    }
-
-    void RigidbodyDrag(float x)
-    {
-        rb.drag = x;
     }
 
     private void WrapMap()
