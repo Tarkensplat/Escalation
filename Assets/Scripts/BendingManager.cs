@@ -20,6 +20,7 @@ public class BendingManager : MonoBehaviour
     [SerializeField]
     [Range(0.005f, 0.1f)]
     private float bendingAmount = 0.015f;
+    public Material[] bendMats;
 
     #endregion
 
@@ -56,6 +57,12 @@ public class BendingManager : MonoBehaviour
     {
         if (Math.Abs(_prevAmount - bendingAmount) > Mathf.Epsilon)
             UpdateBendingAmount();
+
+        //For easy debugging this is in Update.  Once we decide on a good looking value for each level this can me moved to Start, OnEnable, or Awaken.
+        for (int i = 0; i < bendMats.Length; i++)
+        {
+            bendMats[i].SetFloat("Vector1_6d63df4e19f04406a128658087b12187", bendingAmount);
+        }
     }
 
     private void OnDisable()
@@ -64,6 +71,12 @@ public class BendingManager : MonoBehaviour
         RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
     }
 
+    private void Start()
+    {
+        //Access the meta file attached to map to get that maps bending file.  
+        //*NOTE* Commented out while this is implemented
+        //bendingAmount = GameObject.Find("Map").GetComponent<MapInfo>().bendValue;
+    }
     #endregion
 
 
