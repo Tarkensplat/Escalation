@@ -188,16 +188,16 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire2"))
-        {
-            grappling = true;
-            GrappleTo();
-        }
-        else if(Input.GetButtonUp("Fire2"))
-        {
-            grappling = false;
-            ReleaseGrapple();
-        }
+        //if (Input.GetButtonDown("Fire2"))
+        //{
+        //    grappling = true;
+        //    GrappleTo();
+        //}
+        //else if(Input.GetButtonUp("Fire2"))
+        //{
+        //    grappling = false;
+        //    ReleaseGrapple();
+        //}
 
         if (onGround && !groundTouch)
         {
