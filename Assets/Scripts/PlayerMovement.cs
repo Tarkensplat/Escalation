@@ -8,6 +8,7 @@ using DG.Tweening;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody rb;
+    public HookManager hookManager;
 
     [Space]
     [Header("Stats")]
@@ -52,13 +53,12 @@ public class PlayerMovement : MonoBehaviour
 
     [Space]
     [Header("Hook")]
-    public GameObject tempHook;
     private SpringJoint grapplingHook;
-    public bool grappling;
-
     private LineRenderer lr;
     private Vector3 grapplePoint;
+    public bool grappling;
 
+    public float maxGrappleDistance = 10.0f;
     public float grappleSpeed = 5.0f;
     public float maxHookModifier = 0.8f;
     public float minHookModifier = 0.2f;
@@ -192,12 +192,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && 
+            hookManager.closestHook.GetComponent<Hook>().distaceFromPlayer <= maxGrappleDistance)
         {
             grappling = true;
             GrappleTo();
         }
-        else if (Input.GetButtonUp("Fire2"))
+        else if (Input.GetButtonUp("Fire2") && grappling)
         {
             grappling = false;
             ReleaseGrapple();
@@ -214,9 +215,14 @@ public class PlayerMovement : MonoBehaviour
             groundTouch = false;
         }
 
-        // Make sure aerial influence is correct every frame
-        if (GetComponent<BetterJumping>().lowJumpMultiplier != currentInfluence)
-            GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
+        if(grappling)
+        {
+            RotatePlayer();
+        }
+        else
+        {
+            transform.rotation = Quaternion.identity;
+        }
 
         // Elapse camera shake timer
         CameraShake();
@@ -246,7 +252,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void GrappleTo()
     {
-        grapplePoint = tempHook.transform.position;
+        grapplePoint = hookManager.closestHook.transform.position;
 
         grapplingHook = gameObject.AddComponent<SpringJoint>();
         grapplingHook.autoConfigureConnectedAnchor = false;
@@ -283,7 +289,7 @@ public class PlayerMovement : MonoBehaviour
 
         Destroy(grapplingHook);
 
-        Jump(Vector3.up, grappleDisconnectForce);
+        Jump(rb.velocity.normalized, grappleDisconnectForce);
     }
 
     private void RenderHook()
@@ -291,8 +297,17 @@ public class PlayerMovement : MonoBehaviour
         // Do not render line when not grappled
         if (!grapplingHook) return;
 
-        lr.SetPosition(0, gameObject.transform.position);
-        lr.SetPosition(1, grapplePoint);
+        lr.SetPosition(0, Vector3.zero);
+        lr.SetPosition(1, transform.InverseTransformPoint(grapplePoint));
+    }
+
+    private void RotatePlayer()
+    {
+        // Determine which direction to rotate towards
+        Vector3 targetDirection = grapplePoint - transform.position;
+
+        // Applies rotation to this object
+        transform.rotation = Quaternion.LookRotation(targetDirection);
     }
 
     void GroundTouch()
