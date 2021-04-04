@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class BouncePad : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
 
     public float bounceForce;
     public string direction;
     public float disableTime;
+
+    void Start()
+    {
+        player = GameObject.Find("Player");
+    }
 
     void OnCollisionEnter(Collision collision)
     {

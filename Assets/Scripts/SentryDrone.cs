@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SentryDrone : MonoBehaviour
-
-   
 {
     public GameObject[] path;
     int pathIndex;

@@ -215,6 +215,9 @@ public class PlayerMovement : MonoBehaviour
             groundTouch = false;
         }
 
+        if (groundTouch && currentJumps < maxJumps)
+            currentJumps = maxJumps;
+
         if(grappling)
         {
             RotatePlayer();

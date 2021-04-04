@@ -10685,7 +10685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 430003742}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38, y: 29.333334, z: -10.5}
+  m_LocalPosition: {x: 0, y: 0.33333337, z: -10.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -11842,7 +11842,6 @@ GameObject:
   - component: {fileID: 456220143}
   - component: {fileID: 456220142}
   - component: {fileID: 456220141}
-  - component: {fileID: 456220140}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -11850,30 +11849,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!145 &456220140
-SpringJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 456220139}
-  m_ConnectedBody: {fileID: 0}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_Anchor: {x: 0, y: 0.99999994, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 38, y: 29.933334, z: -0.5}
-  serializedVersion: 2
-  m_Spring: 0
-  m_Damper: 0.2
-  m_MinDistance: 0
-  m_MaxDistance: 0.2
-  m_Tolerance: 0.025
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!114 &456220141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11887,7 +11862,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 456220145}
-  speed: 5
+  hookManager: {fileID: 0}
+  baseSpeed: 5
   jumpForce: 5
   maxJumps: 2
   climbTime: 3
@@ -11918,13 +11894,15 @@ MonoBehaviour:
   shakeDuration: 0.1
   shakeAmplitude: 3
   shakeFrequency: 1
-  tempHook: {fileID: 0}
   grappling: 0
+  maxGrappleDistance: 10
+  grappleSpeed: 5
   maxHookModifier: 0.8
   minHookModifier: 0.2
   hookSpring: 4.5
   hookDamper: 7
   grappleMassScale: 4.5
+  grappleDisconnectForce: 50
   hasDashed: 0
   side: 1
   minX: -45
@@ -16802,7 +16780,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456220139}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38, y: 29.333334, z: -0.5}
+  m_LocalPosition: {x: 0, y: 0.33333337, z: -0.5}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
@@ -38828,7 +38806,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404357133}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38, y: 29.333334, z: -10.5}
+  m_LocalPosition: {x: 0, y: 0.33333337, z: -10.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1406338404}

@@ -32,7 +32,8 @@ public class HookManager : MonoBehaviour
         {
             h.GetComponent<Hook>().distaceFromPlayer = Vector2.Distance(player.transform.position, h.transform.position);
 
-            if (h.GetComponent<Hook>().distaceFromPlayer < closestDistance)
+            if (h.GetComponent<Hook>().distaceFromPlayer < closestDistance &&
+                h.GetComponent<Hook>().transform.position.y >= player.transform.position.y)
             {
                 closestDistance = h.GetComponent<Hook>().distaceFromPlayer;
                 closestHook = h;
