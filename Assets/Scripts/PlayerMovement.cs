@@ -26,6 +26,9 @@ public class PlayerMovement : MonoBehaviour
     public float jumpInfluence = 5.0f;
     public float bounceInfluence = 2.0f;
     public float currentInfluence;
+    public float iceLerp = 0.1f;
+    public Vector3 curIceVel;
+    public float iceMultiplier = 5.0f;
 
     [Space]
     [Header("Booleans")]
@@ -34,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     public bool forceApplied;
     public bool wallSlide;
     public bool isDashing;
+    public bool onIce = false;
 
     [Space]
     [Header("Collison")]
@@ -443,7 +447,13 @@ public class PlayerMovement : MonoBehaviour
         if (wallGrab)
             return;
 
-        if (!forceApplied)
+        if (onIce && !forceApplied)
+        {
+            rb.velocity = new Vector3(Mathf.Lerp(curIceVel.x, dir.x * currentSpeed, iceMultiplier * iceLerp * iceLerp * Time.deltaTime), rb.velocity.y, 0);
+            curIceVel = rb.velocity;
+            //adapted from https://answers.unity.com/questions/240557/icyslippery-floor.html
+        }
+        else if (!forceApplied)
         {
             rb.velocity = new Vector3(dir.x * currentSpeed, rb.velocity.y, 0);
         }
