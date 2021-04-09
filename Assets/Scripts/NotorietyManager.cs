@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class NotorietyManager : MonoBehaviour
+public static class NotorietyManager
 {
     private static float notoriety;
-    public static Text notorietyUI;
+    private static Text notorietyUI;
 
     public static float Notoriety
     {
