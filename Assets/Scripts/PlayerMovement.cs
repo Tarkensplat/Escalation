@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
     public HookManager hookManager;
 
+    private Animator animator;
+
     [Space]
     [Header("Stats")]
     private float currentSpeed = 10.0f;
@@ -25,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public int currentJumps = 0;
     public float jumpInfluence = 5.0f;
     public float bounceInfluence = 2.0f;
+    public float grappleInfluence = 3.0f;
     public float currentInfluence;
 
     [Space]
@@ -93,6 +96,8 @@ public class PlayerMovement : MonoBehaviour
         ps = GetComponent<ParticleSystem>();
         lr = GetComponent<LineRenderer>();
 
+        animator = GetComponentInChildren<Animator>();
+
         vcam = GameObject.FindGameObjectWithTag("Cinemachine Camera").GetComponent<CinemachineVirtualCamera>();
         virtualCameraNoise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
@@ -101,6 +106,9 @@ public class PlayerMovement : MonoBehaviour
         currentInfluence = jumpInfluence;
 
         climbTimer = climbTime;
+
+        // Dash once to set drag parameters correctly
+        Dash(0, 0);
     }
 
     // Update is called once per frame
@@ -148,10 +156,19 @@ public class PlayerMovement : MonoBehaviour
             float speedModifier = y > 0 ? .5f : 1;
 
             rb.velocity = new Vector3(0, y * (currentSpeed * speedModifier), 0);
+            if(y > 0 && wallGrab)
+            {
+                animator.SetBool("WallMove", true);
+            }
+            else
+            {
+                animator.SetBool("WallMove", false);
+            }
         }
         else
         {
             rb.useGravity = true;
+            animator.SetBool("WallMove", false);
         }
 
         if (onWall && !onGround)
@@ -192,15 +209,20 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire2") && 
+        if (Input.GetButtonDown("Fire2") && !isDashing &&
             hookManager.closestHook.GetComponent<Hook>().distaceFromPlayer <= maxGrappleDistance)
         {
             grappling = true;
+            forceApplied = true;
+            currentInfluence = grappleInfluence;
+            GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
+
             GrappleTo();
         }
         else if (Input.GetButtonUp("Fire2") && grappling)
         {
             grappling = false;
+
             ReleaseGrapple();
         }
 
@@ -233,6 +255,9 @@ public class PlayerMovement : MonoBehaviour
         // Wrap around the map
         WrapMap();
 
+        // Update Animation
+        UpdateAnimation(x, y);
+
         // If in a special state or unable to move, do not update side information
         if (wallGrab || wallSlide || !canMove)
             return;
@@ -251,6 +276,36 @@ public class PlayerMovement : MonoBehaviour
     void LateUpdate()
     {
         RenderHook();
+    }
+
+    private void UpdateAnimation(float xAxis, float yAxis)
+    {
+        if (xAxis != 0 && onGround)
+        {
+            animator.SetBool("Run", true);
+        }
+        else
+        {
+            animator.SetBool("Run", false);
+        }
+
+        if(onWall && !onGround && !grappling)
+        {
+            animator.SetBool("Wall", true);
+        }
+        else
+        {
+            animator.SetBool("Wall", false);
+        }
+
+        if (side < 0)
+        {
+            transform.rotation = Quaternion.LookRotation(-transform.forward);
+        }
+        else
+        {
+            transform.rotation = Quaternion.LookRotation(transform.forward);
+        }
     }
 
     private void GrappleTo()
@@ -315,6 +370,10 @@ public class PlayerMovement : MonoBehaviour
 
     void GroundTouch()
     {
+        animator.ResetTrigger("Jump");
+        animator.ResetTrigger("Land");
+        animator.SetTrigger("Land");
+
         hasDashed = false;
         isDashing = false;
 
@@ -324,6 +383,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Dash(float x, float y)
     {
+        if(onGround && y <= 0)
+        {
+            animator.ResetTrigger("GroundDash");
+            animator.SetTrigger("GroundDash");
+        }
+        else
+        {
+            animator.ResetTrigger("Dash");
+            animator.SetTrigger("Dash");
+        }
+
         rb.velocity = Vector3.zero;
         Vector3 dir = new Vector3(x, y, 0);
 
@@ -352,6 +422,9 @@ public class PlayerMovement : MonoBehaviour
 
         GetComponent<BetterJumping>().enabled = true;
         GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
+
+        animator.ResetTrigger("DashEnd");
+        animator.SetTrigger("DashEnd");
     }
 
     IEnumerator GroundDash()
@@ -455,6 +528,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump(Vector3 dir, float force)
     {
+        animator.ResetTrigger("Jump");
+        animator.SetTrigger("Jump");
+
         rb.velocity = new Vector3(rb.velocity.x, 0, 0);
         rb.velocity += dir * force;
     }
