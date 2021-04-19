@@ -5,6 +5,7 @@ using UnityEngine;
 public class SentryDrone : MonoBehaviour
 {
     public GameObject[] path;
+    public AudioSource alert;
     int pathIndex;
     Vector3 velocity;
     public bool patrolling = true;
@@ -65,6 +66,7 @@ public class SentryDrone : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
+            alert.Play();
             //decrease notoriety by 5, don't go below 0
             NotorietyManager.Notoriety = NotorietyManager.Notoriety > 5 ? NotorietyManager.Notoriety - 5 : 0;
             for (int i = 0; i < copies.Length; i++)

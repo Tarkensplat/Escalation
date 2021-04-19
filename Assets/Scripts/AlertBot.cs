@@ -8,11 +8,13 @@ public class AlertBot : MonoBehaviour
     float alertDelay = 1f;
     int jumpForce = 8;
     Rigidbody rb;
+    public AudioSource alert;
 
     void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Player")
         {
+            alert.Play();
             //decrease notoriety by 5, don't go below 0
             NotorietyManager.Notoriety = NotorietyManager.Notoriety > 5 ? NotorietyManager.Notoriety - 5 : 0;
 

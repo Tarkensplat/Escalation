@@ -90,6 +90,11 @@ public class PlayerMovement : MonoBehaviour
 
     ParticleSystem ps;
 
+    AudioSource climbSound;
+    AudioSource jumpSound;
+    AudioSource grappleSound;
+    AudioSource dashSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -105,6 +110,12 @@ public class PlayerMovement : MonoBehaviour
         currentInfluence = jumpInfluence;
 
         climbTimer = climbTime;
+
+        SoundManager sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        climbSound = sm.climbing;
+        jumpSound = sm.jump;
+        grappleSound = sm.grapple;
+        dashSound = sm.dash;
     }
 
     // Update is called once per frame
@@ -152,6 +163,11 @@ public class PlayerMovement : MonoBehaviour
             float speedModifier = y > 0 ? .5f : 1;
 
             rb.velocity = new Vector3(0, y * (currentSpeed * speedModifier), 0);
+            if(rb.velocity.y > 0 && !climbSound.isPlaying)
+            {
+                //play climbing sound
+                climbSound.Play();
+            }
         }
         else
         {
@@ -174,10 +190,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if (onWall && !onGround)
             {
+                //jump sound
+                jumpSound.Play();
                 PointLaunch();
             }
             else if(currentJumps > 0)
             {
+                //jump sound
+                jumpSound.Play();
                 currentInfluence = jumpInfluence;
                 GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
                 Jump(Vector2.up, jumpForce);
@@ -189,6 +209,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (xRaw != 0 || yRaw != 0)
             {
+                //dash sound
+                dashSound.Play();
                 Dash(xRaw, yRaw);
 
                 hasDashed = true;
@@ -199,6 +221,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Fire2") && 
             hookManager.closestHook.GetComponent<Hook>().distaceFromPlayer <= maxGrappleDistance)
         {
+            //play grapple shot sound
+            grappleSound.Play();
             grappling = true;
             GrappleTo();
         }
