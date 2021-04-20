@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
 
     public int side = 1;
 
-    CinemachineVirtualCamera vcam;
+    private CinemachineVirtualCamera vcam;
     private CinemachineBasicMultiChannelPerlin virtualCameraNoise;
     public float minX, maxX;
 
@@ -97,6 +97,8 @@ public class PlayerMovement : MonoBehaviour
         lr = GetComponent<LineRenderer>();
 
         animator = GetComponentInChildren<Animator>();
+
+        Camera.main.layerCullSpherical = true;
 
         vcam = GameObject.FindGameObjectWithTag("Cinemachine Camera").GetComponent<CinemachineVirtualCamera>();
         virtualCameraNoise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
