@@ -108,6 +108,9 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
 
         Camera.main.layerCullSpherical = true;
+        
+        //Updates the notoriety UI on scene change
+        NotorietyManager.Notoriety += 0;
 
         vcam = GameObject.FindGameObjectWithTag("Cinemachine Camera").GetComponent<CinemachineVirtualCamera>();
         virtualCameraNoise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();

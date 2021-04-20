@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
 {
     // Start is called before the first frame update
     Rigidbody rbp;
+    public float notoriety;
     public float interactDistance;
     public string nextScene;
 
@@ -20,6 +21,7 @@ public class Door : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && interactDistance >= Vector3.Distance(transform.position, rbp.position))
         {
+            NotorietyManager.Notoriety += notoriety;
             SceneManager.LoadScene(nextScene);
         }
     }

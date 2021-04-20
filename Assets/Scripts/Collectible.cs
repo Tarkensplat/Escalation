@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
+    public GameObject[] copies;
     Vector3 startPosition;
     public float value;
 
@@ -28,6 +29,11 @@ public class Collectible : MonoBehaviour
         {
             collectionSound.Play();
             NotorietyManager.Notoriety += value;
+            
+            for (int i = 0; i < copies.Length; i++)
+            {
+                copies[i].SetActive(false);
+            }
             gameObject.SetActive(false);
         }
     }
