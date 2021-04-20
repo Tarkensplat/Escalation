@@ -8,9 +8,11 @@ public class Collectible : MonoBehaviour
     public float value;
 
     public float offset;
+    AudioSource collectionSound;
     // Start is called before the first frame update
     void Start()
     {
+        collectionSound = GameObject.Find("SoundManager").GetComponent<SoundManager>().collection;
         startPosition = transform.position;
     }
 
@@ -22,7 +24,11 @@ public class Collectible : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        NotorietyManager.Notoriety += value;
-        gameObject.SetActive(false);
+        if(other.gameObject.tag == "Player")
+        {
+            collectionSound.Play();
+            NotorietyManager.Notoriety += value;
+            gameObject.SetActive(false);
+        }
     }
 }

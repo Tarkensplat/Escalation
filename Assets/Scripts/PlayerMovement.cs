@@ -29,6 +29,9 @@ public class PlayerMovement : MonoBehaviour
     public float bounceInfluence = 2.0f;
     public float grappleInfluence = 3.0f;
     public float currentInfluence;
+    public float iceLerp = 0.1f;
+    public Vector3 curIceVel;
+    public float iceMultiplier = 5.0f;
 
     [Space]
     [Header("Booleans")]
@@ -37,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     public bool forceApplied;
     public bool wallSlide;
     public bool isDashing;
+    public bool onIce = false;
 
     [Space]
     [Header("Collison")]
@@ -89,6 +93,11 @@ public class PlayerMovement : MonoBehaviour
 
     ParticleSystem ps;
 
+    AudioSource climbSound;
+    AudioSource jumpSound;
+    AudioSource grappleSound;
+    AudioSource dashSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -111,6 +120,12 @@ public class PlayerMovement : MonoBehaviour
 
         // Dash once to set drag parameters correctly
         Dash(0, 0);
+        
+        SoundManager sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        climbSound = sm.climbing;
+        jumpSound = sm.jump;
+        grappleSound = sm.grapple;
+        dashSound = sm.dash;
     }
 
     // Update is called once per frame
@@ -166,6 +181,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 animator.SetBool("WallMove", false);
             }
+            
+            if(rb.velocity.y > 0 && !climbSound.isPlaying)
+            {
+                //play climbing sound
+                climbSound.Play();
+            }
         }
         else
         {
@@ -189,10 +210,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if (onWall && !onGround)
             {
+                //jump sound
+                jumpSound.Play();
                 PointLaunch();
             }
             else if(currentJumps > 0)
             {
+                //jump sound
+                jumpSound.Play();
                 currentInfluence = jumpInfluence;
                 GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
                 Jump(Vector2.up, jumpForce);
@@ -204,6 +229,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (xRaw != 0 || yRaw != 0)
             {
+                //dash sound
+                dashSound.Play();
                 Dash(xRaw, yRaw);
 
                 hasDashed = true;
@@ -214,6 +241,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Fire2") && !isDashing &&
             hookManager.closestHook.GetComponent<Hook>().distaceFromPlayer <= maxGrappleDistance)
         {
+            //play grapple shot sound
+            grappleSound.Play();
             grappling = true;
             forceApplied = true;
             currentInfluence = grappleInfluence;
@@ -518,7 +547,13 @@ public class PlayerMovement : MonoBehaviour
         if (wallGrab)
             return;
 
-        if (!forceApplied)
+        if (onIce && !forceApplied)
+        {
+            rb.velocity = new Vector3(Mathf.Lerp(curIceVel.x, dir.x * currentSpeed, iceMultiplier * iceLerp * iceLerp * Time.deltaTime), rb.velocity.y, 0);
+            curIceVel = rb.velocity;
+            //adapted from https://answers.unity.com/questions/240557/icyslippery-floor.html
+        }
+        else if (!forceApplied)
         {
             rb.velocity = new Vector3(dir.x * currentSpeed, rb.velocity.y, 0);
         }
