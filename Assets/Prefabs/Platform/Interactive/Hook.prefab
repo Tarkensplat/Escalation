@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1109018475829954664}
   - component: {fileID: 4485077449172282191}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 4462037712148620145}
   - component: {fileID: 5766089302414736262}
   - component: {fileID: 7051203771638693433}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EagleBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 387898625782107516}
   - component: {fileID: 6115560396347726574}
   - component: {fileID: 6587191521389555423}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Circle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 4936888940933023133}
   - component: {fileID: 7525607496916780123}
   - component: {fileID: 5588651280700437082}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Circle3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 8826284217353459445}
   - component: {fileID: 2604059626935948253}
   - component: {fileID: 6548978366765283610}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Circle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
