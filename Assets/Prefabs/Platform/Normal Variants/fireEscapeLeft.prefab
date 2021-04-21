@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8499197560894373059}
   - component: {fileID: 8499197560894373058}
   - component: {fileID: 8499197560894373069}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: fireEscapeFloorLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 8499197561312638567}
   - component: {fileID: 8499197561312638565}
   - component: {fileID: 8499197561312638564}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: fireEscapeGirderLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 8499197561337542104}
   - component: {fileID: 8499197561337542107}
   - component: {fileID: 8499197561337542106}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: fireEscapeBarsLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8499197561623094442}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,7 +314,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8499197562360830536}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: fireEscapeLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}

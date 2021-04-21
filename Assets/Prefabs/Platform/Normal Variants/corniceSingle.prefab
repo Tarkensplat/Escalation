@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3538673582921598871}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: corniceSingle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 5354269122556879226}
   - component: {fileID: 4299084350582171861}
   - component: {fileID: 3932026902273203650}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: corniceSingle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

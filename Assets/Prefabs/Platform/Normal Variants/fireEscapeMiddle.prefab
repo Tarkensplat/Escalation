@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2289685694349835775}
   - component: {fileID: 7827883573107775608}
   - component: {fileID: 4811805060113200676}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: fireEscapeFloorMiddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4993452159946765861}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: fireEscapeMiddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 2055783083014929476}
   - component: {fileID: 1634044460720452662}
   - component: {fileID: 8792198194904119360}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: fireEscapeGirderMiddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 1246542519059203976}
   - component: {fileID: 3311067953210727051}
   - component: {fileID: 4811805059354420239}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: fireEscapeBarsMiddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5334502196646515378}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
