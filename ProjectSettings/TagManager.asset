@@ -7,6 +7,7 @@ TagManager:
   - Cinemachine Camera
   - BouncePad
   - SentryPath
+  - Background Building
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Sentry-Path
   - Player
   - Hook
-  - 
+  - Background
   - 
   - 
   - 
