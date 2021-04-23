@@ -32,6 +32,9 @@ public class PlayerMovement : MonoBehaviour
     public float iceLerp = 0.1f;
     public Vector3 curIceVel;
     public float iceMultiplier = 5.0f;
+    float iceDir = 0.0f;
+    float iceTimer = 0.0f;
+    bool firstIce = true;
 
     [Space]
     [Header("Booleans")]
@@ -550,9 +553,31 @@ public class PlayerMovement : MonoBehaviour
         if (wallGrab)
             return;
 
+        if(!onIce && !firstIce)
+        {
+            iceDir = 0.0f;
+            firstIce = true;
+            curIceVel = Vector3.zero;
+            iceTimer = 0.0f;
+        }
+
         if (onIce && !forceApplied)
         {
-            rb.velocity = new Vector3(Mathf.Lerp(curIceVel.x, dir.x * currentSpeed, iceMultiplier * iceLerp * iceLerp * Time.deltaTime), rb.velocity.y, 0);
+            if((!firstIce && iceDir != dir.x))
+            {
+                iceTimer = 3.0f;
+            }
+            if (iceTimer > 0)
+            {
+                iceTimer -= Time.deltaTime;
+                rb.velocity = new Vector3(Mathf.Lerp(curIceVel.x, dir.x * (currentSpeed+2), iceMultiplier * iceLerp * iceLerp * Time.deltaTime), rb.velocity.y, 0);
+            }
+            else
+            {
+                rb.velocity = new Vector3(dir.x * (currentSpeed+2), rb.velocity.y, 0);
+            }
+            firstIce = false;
+            iceDir = dir.x;
             curIceVel = rb.velocity;
             //adapted from https://answers.unity.com/questions/240557/icyslippery-floor.html
         }
