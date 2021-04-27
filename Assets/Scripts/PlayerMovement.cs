@@ -97,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
     AudioSource jumpSound;
     AudioSource grappleSound;
     AudioSource dashSound;
+    Transform childTransform;
 
     // Start is called before the first frame update
     void Start()
@@ -120,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
         currentInfluence = jumpInfluence;
 
         climbTimer = climbTime;
+        childTransform  = transform.GetChild(0).transform;
 
         // Dash once to set drag parameters correctly
         Dash(0, 0);
@@ -274,15 +276,6 @@ public class PlayerMovement : MonoBehaviour
         if (groundTouch && currentJumps < maxJumps)
             currentJumps = maxJumps;
 
-        if(grappling)
-        {
-            RotatePlayer();
-        }
-        else
-        {
-            transform.rotation = Quaternion.identity;
-        }
-
         // Elapse camera shake timer
         CameraShake();
 
@@ -334,11 +327,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (side < 0)
         {
-            transform.rotation = Quaternion.LookRotation(-transform.forward);
+            childTransform.rotation = Quaternion.LookRotation(-transform.right);
         }
         else
         {
-            transform.rotation = Quaternion.LookRotation(transform.forward);
+            childTransform.rotation = Quaternion.LookRotation(transform.right);
+        }
+
+        if(grappling)
+        {
+            RotatePlayer();
         }
     }
 
@@ -396,10 +394,11 @@ public class PlayerMovement : MonoBehaviour
     private void RotatePlayer()
     {
         // Determine which direction to rotate towards
-        Vector3 targetDirection = grapplePoint - transform.position;
-
+        Vector3 targetDirection = grapplePoint - childTransform.position;
         // Applies rotation to this object
-        transform.rotation = Quaternion.LookRotation(targetDirection);
+        childTransform.rotation = Quaternion.LookRotation(targetDirection);
+
+        // transform.rotation = Quaternion.LookRotation(targetDirection);
     }
 
     void GroundTouch()
