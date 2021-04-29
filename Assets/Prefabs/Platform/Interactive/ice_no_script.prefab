@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 2253388882586279036}
   - component: {fileID: 2253388882586279039}
   - component: {fileID: 2253388882586279038}
-  - component: {fileID: 4375900943025326443}
-  m_Layer: 0
-  m_Name: trampoline_1x1
+  m_Layer: 6
+  m_Name: ice_no_script
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0c29877e9d5f7ee42aeac17c79362334, type: 2}
+  - {fileID: 2100000, guid: 62760beb3f2496d499ba3a10d02f66d4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,17 +95,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4375900943025326443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2253388882586279024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9e1a34861e38414d88515473aed390b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bounceForce: 0
-  direction: 

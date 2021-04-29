@@ -5,6 +5,7 @@ using UnityEngine;
 public class WasherDrone : MonoBehaviour
 {
     public GameObject[] path;
+    public float delayTime = 2.0f;
     int pathIndex;
     Rigidbody rb;
     GameObject nextPath;
@@ -23,7 +24,7 @@ public class WasherDrone : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            Invoke("RestartDrone", 2.0f);
+            Invoke("RestartDrone", delayTime);
         }
     }
 
