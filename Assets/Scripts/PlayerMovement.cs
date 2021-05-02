@@ -134,175 +134,178 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Set the current climbing state every frame
-        CheckClimbState();
-
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-        float xRaw = Input.GetAxisRaw("Horizontal");
-        float yRaw = Input.GetAxisRaw("Vertical");
-        Vector2 dir = new Vector2(x, y);
-
-        Walk(dir);
-
-        if (onWall && Input.GetButton("Fire3") && canMove)
+        if (!GameStateManager.paused)
         {
-            wallGrab = true;
-            wallSlide = false;
+            // Set the current climbing state every frame
+            CheckClimbState();
 
-            if(climbTimer > 0)
-                climbTimer -= Time.deltaTime;
-        }
+            float x = Input.GetAxis("Horizontal");
+            float y = Input.GetAxis("Vertical");
+            float xRaw = Input.GetAxisRaw("Horizontal");
+            float yRaw = Input.GetAxisRaw("Vertical");
+            Vector2 dir = new Vector2(x, y);
 
-        if (Input.GetButtonUp("Fire3") || !onWall || !canMove)
-        {
-            wallGrab = false;
-            wallSlide = false;
-        }
+            Walk(dir);
 
-        if (onGround && !isDashing)
-        {
-            forceApplied = false;
-            GetComponent<BetterJumping>().enabled = true;
-            GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
-        }
-
-        if (wallGrab && !isDashing && climbTimer > 0)
-        {
-            rb.useGravity = false;
-            if (x > .2f || x < -.2f)
-                rb.velocity = new Vector3(rb.velocity.x, 0, 0);
-
-            float speedModifier = y > 0 ? .5f : 1;
-
-            rb.velocity = new Vector3(0, y * (currentSpeed * speedModifier), 0);
-            if(y > 0 && wallGrab)
+            if (onWall && Input.GetButton("Fire3") && canMove)
             {
-                animator.SetBool("WallMove", true);
+                wallGrab = true;
+                wallSlide = false;
+
+                if (climbTimer > 0)
+                    climbTimer -= Time.deltaTime;
+            }
+
+            if (Input.GetButtonUp("Fire3") || !onWall || !canMove)
+            {
+                wallGrab = false;
+                wallSlide = false;
+            }
+
+            if (onGround && !isDashing)
+            {
+                forceApplied = false;
+                GetComponent<BetterJumping>().enabled = true;
+                GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
+            }
+
+            if (wallGrab && !isDashing && climbTimer > 0)
+            {
+                rb.useGravity = false;
+                if (x > .2f || x < -.2f)
+                    rb.velocity = new Vector3(rb.velocity.x, 0, 0);
+
+                float speedModifier = y > 0 ? .5f : 1;
+
+                rb.velocity = new Vector3(0, y * (currentSpeed * speedModifier), 0);
+                if (y > 0 && wallGrab)
+                {
+                    animator.SetBool("WallMove", true);
+                }
+                else
+                {
+                    animator.SetBool("WallMove", false);
+                }
+
+                if (rb.velocity.y > 0 && !climbSound.isPlaying)
+                {
+                    //play climbing sound
+                    climbSound.Play();
+                }
             }
             else
             {
+                rb.useGravity = true;
                 animator.SetBool("WallMove", false);
             }
-            
-            if(rb.velocity.y > 0 && !climbSound.isPlaying)
-            {
-                //play climbing sound
-                climbSound.Play();
-            }
-        }
-        else
-        {
-            rb.useGravity = true;
-            animator.SetBool("WallMove", false);
-        }
 
-        if (onWall && !onGround)
-        {
-            if (x != 0 && !wallGrab)
-            {
-                wallSlide = true;
-                WallSlide();
-            }
-        }
-
-        if (!onWall || onGround)
-            wallSlide = false;
-
-        if (Input.GetButtonDown("Jump"))
-        {
             if (onWall && !onGround)
             {
-                //jump sound
-                jumpSound.Play();
-                PointLaunch();
+                if (x != 0 && !wallGrab)
+                {
+                    wallSlide = true;
+                    WallSlide();
+                }
             }
-            else if(currentJumps > 0)
+
+            if (!onWall || onGround)
+                wallSlide = false;
+
+            if (Input.GetButtonDown("Jump"))
             {
-                //jump sound
-                jumpSound.Play();
-                currentInfluence = jumpInfluence;
+                if (onWall && !onGround)
+                {
+                    //jump sound
+                    jumpSound.Play();
+                    PointLaunch();
+                }
+                else if (currentJumps > 0)
+                {
+                    //jump sound
+                    jumpSound.Play();
+                    currentInfluence = jumpInfluence;
+                    GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
+                    Jump(Vector2.up, jumpForce);
+                    currentJumps--;
+                }
+            }
+
+            if (Input.GetButtonDown("Fire1") && !hasDashed)
+            {
+                if (xRaw != 0 || yRaw != 0)
+                {
+                    //dash sound
+                    dashSound.Play();
+                    Dash(xRaw, yRaw);
+
+                    hasDashed = true;
+                    shakeElapsedTime = shakeDuration;
+                }
+            }
+
+            if (Input.GetButtonDown("Fire2") && !isDashing &&
+                hookManager.closestHook.GetComponent<Hook>().distaceFromPlayer <= maxGrappleDistance)
+            {
+                //play grapple shot sound
+                grappleSound.Play();
+                grappling = true;
+                forceApplied = true;
+                currentInfluence = grappleInfluence;
                 GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
-                Jump(Vector2.up, jumpForce);
-                currentJumps--;
-            }
-        }
 
-        if (Input.GetButtonDown("Fire1") && !hasDashed)
-        {
-            if (xRaw != 0 || yRaw != 0)
+                GrappleTo();
+            }
+            else if (!Input.GetButton("Fire2") && grappling)
             {
-                //dash sound
-                dashSound.Play();
-                Dash(xRaw, yRaw);
+                grappling = false;
 
-                hasDashed = true;
-                shakeElapsedTime = shakeDuration;
+                ReleaseGrapple();
             }
-        }
 
-        if (Input.GetButtonDown("Fire2") && !isDashing &&
-            hookManager.closestHook.GetComponent<Hook>().distaceFromPlayer <= maxGrappleDistance)
-        {
-            //play grapple shot sound
-            grappleSound.Play();
-            grappling = true;
-            forceApplied = true;
-            currentInfluence = grappleInfluence;
-            GetComponent<BetterJumping>().lowJumpMultiplier = currentInfluence;
+            if (onGround && !groundTouch)
+            {
+                GroundTouch();
+                groundTouch = true;
+            }
 
-            GrappleTo();
-        }
-        else if (Input.GetButtonUp("Fire2") && grappling)
-        {
-            grappling = false;
+            if (!onGround && groundTouch)
+            {
+                groundTouch = false;
+            }
 
-            ReleaseGrapple();
-        }
+            if (groundTouch && currentJumps < maxJumps)
+                currentJumps = maxJumps;
 
-        if (onGround && !groundTouch)
-        {
-            GroundTouch();
-            groundTouch = true;
-        }
+            if (grappling)
+            {
+                RotatePlayer();
+            }
+            else
+            {
+                transform.rotation = Quaternion.identity;
+            }
 
-        if (!onGround && groundTouch)
-        {
-            groundTouch = false;
-        }
+            // Elapse camera shake timer
+            CameraShake();
 
-        if (groundTouch && currentJumps < maxJumps)
-            currentJumps = maxJumps;
+            // Wrap around the map
+            WrapMap();
 
-        if(grappling)
-        {
-            RotatePlayer();
-        }
-        else
-        {
-            transform.rotation = Quaternion.identity;
-        }
+            // Update Animation
+            UpdateAnimation(x, y);
 
-        // Elapse camera shake timer
-        CameraShake();
+            // If in a special state or unable to move, do not update side information
+            if (wallGrab || wallSlide || !canMove)
+                return;
 
-        // Wrap around the map
-        WrapMap();
-
-        // Update Animation
-        UpdateAnimation(x, y);
-
-        // If in a special state or unable to move, do not update side information
-        if (wallGrab || wallSlide || !canMove)
-            return;
-
-        if (x > 0)
-        {
-            side = 1;
-        }
-        if (x < 0)
-        {
-            side = -1;
+            if (x > 0)
+            {
+                side = 1;
+            }
+            if (x < 0)
+            {
+                side = -1;
+            }
         }
     }
 
