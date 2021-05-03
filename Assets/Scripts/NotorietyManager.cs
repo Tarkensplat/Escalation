@@ -19,7 +19,12 @@ public static class NotorietyManager
             //Since static classes don't have Start(), check if the text field has been retrieved yet, we can retrieve the UI the first time the game tries to modify it
             if (notorietyUI == null)
             {
-                notorietyUI = GameObject.FindObjectOfType<Canvas>().GetComponentInChildren<Text>();
+                Canvas temp = GameObject.FindObjectOfType<Canvas>();
+                if (temp == null)
+                {
+                    return;
+                }
+                notorietyUI = temp.GetComponentInChildren<Text>();
             }
             notoriety = value;
             notorietyUI.text = "Notoriety: " + notoriety;

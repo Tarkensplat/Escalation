@@ -159,7 +159,7 @@ MonoBehaviour:
   game: {fileID: 2049495536}
   start: {fileID: 1815632049}
   controls: {fileID: 564100690}
-  nextScene: Level 2
+  nextScene: Tutorial_V2
 --- !u!114 &41206703
 MonoBehaviour:
   m_ObjectHideFlags: 0
