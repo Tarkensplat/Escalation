@@ -73,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
     public float hookDamper = 7f;
     public float grappleMassScale = 4.5f;
     public float grappleDisconnectForce = 50.0f;
+    public GameObject ropeCylinder;
 
     [Space]
     private bool groundTouch;
@@ -97,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
     AudioSource jumpSound;
     AudioSource grappleSound;
     AudioSource dashSound;
+
     Transform childTransform;
 
     // Start is called before the first frame update
@@ -350,6 +352,10 @@ public class PlayerMovement : MonoBehaviour
 
         float hookDistance = Vector3.Distance(transform.position, grapplePoint);
 
+        // Set the rope length
+        Vector3 ropeScale = new Vector3(ropeCylinder.transform.localScale.x, hookDistance, ropeCylinder.transform.localScale.z);
+        ropeCylinder.transform.localScale = ropeScale;
+
         grapplingHook.maxDistance = hookDistance * maxHookModifier;
         grapplingHook.minDistance = hookDistance * minHookModifier;
 
@@ -379,6 +385,9 @@ public class PlayerMovement : MonoBehaviour
 
         Destroy(grapplingHook);
 
+        Vector3 ropeScale = new Vector3(ropeCylinder.transform.localScale.x, 0, ropeCylinder.transform.localScale.z);
+        ropeCylinder.transform.localScale = ropeScale;
+
         Jump(rb.velocity.normalized, grappleDisconnectForce);
     }
 
@@ -395,10 +404,13 @@ public class PlayerMovement : MonoBehaviour
     {
         // Determine which direction to rotate towards
         Vector3 targetDirection = grapplePoint - childTransform.position;
+
         // Applies rotation to this object
         childTransform.rotation = Quaternion.LookRotation(targetDirection);
 
-        // transform.rotation = Quaternion.LookRotation(targetDirection);
+        // Set up grapple rope
+        ropeCylinder.transform.position = transform.position;
+        ropeCylinder.transform.rotation = Quaternion.LookRotation(targetDirection) * Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
     }
 
     void GroundTouch()
