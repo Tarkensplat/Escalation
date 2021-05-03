@@ -7123,9 +7123,9 @@ MonoBehaviour:
   bounceInfluence: 2
   grappleInfluence: 3
   currentInfluence: 0
-  iceLerp: 0.1
+  iceLerp: 0.5
   curIceVel: {x: 0, y: 0, z: 0}
-  iceMultiplier: 100
+  iceMultiplier: 5
   canMove: 1
   wallGrab: 0
   forceApplied: 0

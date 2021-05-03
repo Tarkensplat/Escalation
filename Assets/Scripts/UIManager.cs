@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (GameStateManager.paused)
+            if (!GameStateManager.paused)
             {
                 pause.SetActive(true);
                 game.SetActive(false);
@@ -49,6 +49,7 @@ public class UIManager : MonoBehaviour
         {
             start.SetActive(false);
         }
+        controls.SetActive(false);
     }
 
     public void ChangeControls()
