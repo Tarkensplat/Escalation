@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (!GameStateManager.paused)
+            if (GameStateManager.paused)
             {
                 pause.SetActive(true);
                 game.SetActive(false);
